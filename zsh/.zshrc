@@ -128,3 +128,9 @@ export LS_COLORS="$(vivid generate catppuccin-macchiato)"
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 autoload -Uz compinit
 compinit
+
+# ---- Zoxide (better cd) ----
+eval "$(zoxide init zsh)"
+
+alias cd="z"
+
