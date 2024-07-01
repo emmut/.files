@@ -31,4 +31,16 @@ mods = "Control|Shift"
 enabled = true
 mods = "None"
 
-
+[keyboard]
+bindings = [
+  {key="Key1", mods="Alt", chars="©"},
+  {key="Key2", mods="Alt", chars="@"},
+  {key="Key3", mods="Alt", chars="£"},
+  {key="Key4", mods="Alt", chars="$"},
+  {key="Key5", mods="Alt", chars="∞"},
+  {key="Key6", mods="Alt", chars="§"},
+  {key="Key7", mods="Alt", chars="|"},
+  {key="Key8", mods="Alt", chars="["},
+  {key="Key9", mods="Alt", chars="]"},
+  {key="Key0", mods="Alt", chars="≈"},
+]
