@@ -1,0 +1,34 @@
+import = [
+   "~/.config/alacritty/catppuccin-macchiato.toml"
+]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+
+[window]
+decorations = "Buttonless"
+padding = { x = 4, y = 4 }
+dynamic_padding = true
+option_as_alt = "Both"
+
+[[hints.enabled]]
+command = "open"
+hyperlinks = true
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+
