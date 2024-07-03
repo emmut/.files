@@ -43,4 +43,6 @@ bindings = [
   {key="Key8", mods="Alt", chars="["},
   {key="Key9", mods="Alt", chars="]"},
   {key="Key0", mods="Alt", chars="≈"},
+  {key="Left", mods="Command", chars="\u001BOH", mode="AppCursor"},
+  {key="Right", mods="Command", chars="\u001BOF", mode="AppCursor"},
 ]
