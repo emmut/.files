@@ -7,17 +7,14 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
     "bindings": {
-      // "shift shift": "file_finder::Toggle"
-      // "cmd-'": "editor::ToggleComments"
+      "cmd-ö": "debugger::FocusTerminal"
     }
   },
   {
-    "context": "Editor",
+    "context": "Workspace",
     "bindings": {
-      // "j k": ["workspace::SendKeystrokes", "escape"]
-      "shift-command-ö": "workspace::OpenTerminal"
+      "cmd-ö": "terminal_panel::ToggleFocus"
     }
   }
 ]

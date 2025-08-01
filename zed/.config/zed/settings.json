@@ -10,15 +10,17 @@
   "vim_mode": true,
   "theme": "Catppuccin Macchiato",
   "icon_theme": "Catppuccin Macchiato",
-  "buffer_font_size": 15,
-  "buffer_font_family": "FiraMono Nerd Font Mono",
+  "buffer_font_size": 14,
+  "buffer_font_family": "FiraCode Nerd Font Mono",
   "terminal": {
-    "font_family": "FiraMono Nerd Font Mono",
+    "font_family": "FiraCode Nerd Font Mono",
     "line_height": {
-      "custom": 1
+      "custom": 1.2
     },
+    "font_size": 14,
     "font_features": {
       "ligatures": true
     }
-  }
+  },
+  "relative_line_numbers": true
 }
