@@ -19,5 +19,16 @@
       // "j k": ["workspace::SendKeystrokes", "escape"]
       "shift-command-ö": "workspace::OpenTerminal"
     }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-'": [
+        "editor::ToggleComments",
+        {
+          "advance_downwards": false
+        }
+      ]
+    }
   }
 ]
