@@ -16,5 +16,16 @@
     "bindings": {
       "cmd-ö": "terminal_panel::ToggleFocus"
     }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-'": [
+        "editor::ToggleComments",
+        {
+          "advance_downwards": false
+        }
+      ]
+    }
   }
 ]
