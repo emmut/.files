@@ -14,7 +14,11 @@
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-ö": "terminal_panel::ToggleFocus"
+      "cmd-ö": "terminal_panel::ToggleFocus",
+      "ctrl-cmd-shift-alt-o": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "right" }
+      ]
     }
   },
   {
