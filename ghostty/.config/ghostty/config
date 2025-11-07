@@ -1,3 +1,4 @@
 font-family = FiraCode Nerd Font Mono
 theme = catppuccin-macchiato.conf
 window-padding-x = 8
+command = /opt/homebrew/bin/fish   
