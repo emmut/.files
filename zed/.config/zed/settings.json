@@ -7,6 +7,13 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-5"
+    },
+    "model_parameters": []
+  },
   "project_panel": {
     "dock": "right"
   },
