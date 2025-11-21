@@ -29,7 +29,9 @@
         {
           "advance_downwards": false
         }
-      ]
+      ],
+      "cmd-shift-l": "workspace::ToggleLeftDock",
+      "cmd-l": "agent::AddSelectionToThread"
     }
   }
 ]
