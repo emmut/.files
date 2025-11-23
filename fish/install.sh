@@ -13,6 +13,7 @@ ensure_command vivid
 ensure_command curl
 ensure_command git
 ensure_command trash-cli
+ensure_command lsd
 
 # Install fnm if missing (package managers rarely ship it)
 if ! have_command fnm; then
