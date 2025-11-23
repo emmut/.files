@@ -29,7 +29,6 @@ if ! have_command node; then
     export PATH="$HOME/.fnm:$PATH"
     if command -v fnm >/dev/null 2>&1; then
         fnm install --lts
-        fnm use lts-latest
         echo "Node.js $(node --version) installed successfully!"
     else
         echo "Error: fnm command not found after installation"
