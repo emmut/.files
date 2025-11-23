@@ -52,3 +52,9 @@ if ! fish -c 'fisher list | grep -q "jhillyerd/plugin-git"' >/dev/null 2>&1; the
 else
     echo "jhillyerd/plugin-git already installed via fisher."
 fi
+
+if ! fish -c 'fisher list | grep -q "franciscolourenco/done"' >/dev/null 2>&1; then
+    fish -c 'fisher install franciscolourenco/done'
+else
+    echo "franciscolourenco/done already installed via fisher."
+fi
