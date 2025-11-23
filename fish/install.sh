@@ -12,6 +12,7 @@ ensure_command fzf
 ensure_command vivid
 ensure_command curl
 ensure_command git
+ensure_command trash-cli
 
 # Install fnm if missing (package managers rarely ship it)
 if ! have_command fnm; then
@@ -19,6 +20,21 @@ if ! have_command fnm; then
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.fnm" --skip-shell
 else
     echo "fnm already installed."
+fi
+
+# Install latest LTS Node.js if no Node is installed
+if ! have_command node; then
+    echo "Installing latest LTS Node.js..."
+    export PATH="$HOME/.fnm:$PATH"
+    if command -v fnm >/dev/null 2>&1; then
+        fnm install --lts
+        fnm use lts-latest
+        echo "Node.js $(node --version) installed successfully!"
+    else
+        echo "Error: fnm command not found after installation"
+    fi
+else
+    echo "Node.js $(node --version) is already installed"
 fi
 
 # Ensure fisher is available
