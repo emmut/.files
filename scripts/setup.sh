@@ -39,10 +39,10 @@ for dir in $STOW_DIRS; do
     echo "Processing $dir..."
 
     # Check for and run dependency script
-    if [ -f "$dir/install.sh" ]; then
-        echo "Found dependency script in $dir. Running it..."
-        chmod +x "$dir/install.sh"
-        (cd "$dir" && ./install.sh)
+    if [ -f "install/$dir.sh" ]; then
+        echo "Found dependency script for $dir. Running it..."
+        chmod +x "install/$dir.sh"
+        ./install/"$dir.sh"
     fi
 
     echo "Stowing $dir..."
