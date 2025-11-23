@@ -46,7 +46,7 @@ for dir in $STOW_DIRS; do
     fi
 
     echo "Stowing $dir..."
-    stow -v -R -t "$HOME" "$dir"
+    stow -v -R --adopt -t "$HOME" "$dir"
 done
 
 echo "Done."

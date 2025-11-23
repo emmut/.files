@@ -17,3 +17,19 @@ install_packages() {
     fi
 }
 
+have_command() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+ensure_command() {
+    local cmd="$1"
+    local pkg="${2:-$cmd}"
+
+    if have_command "$cmd"; then
+        echo "$cmd already installed."
+        return 0
+    fi
+
+    install_packages "$pkg"
+}
+
