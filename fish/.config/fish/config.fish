@@ -23,6 +23,7 @@ if status is-interactive
         set -gx PATH "$HOME/.fnm:$PATH"
         if command -v fnm >/dev/null 2>&1
             fnm env --use-on-cd --shell fish --corepack-enabled --version-file-strategy recursive | source
+            fnm completions --shell fish | source
         end
     end
 
