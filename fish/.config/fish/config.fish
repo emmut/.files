@@ -25,4 +25,9 @@ if status is-interactive
             fnm env --use-on-cd --shell fish --corepack-enabled --version-file-strategy recursive | source
         end
     end
+
+    # LS_COLORS setup
+    if command -v vivid >/dev/null 2>&1
+        set -gx LS_COLORS (vivid generate catppuccin-macchiato)
+    end
 end
