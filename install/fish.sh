@@ -38,6 +38,16 @@ else
     echo "Node.js $(node --version) is already installed"
 fi
 
+# Install cheat if missing
+if [[ ! -f "$HOME/.local/bin/cheat" ]]; then
+    echo "Installing cheat..."
+    mkdir -p "$HOME/.local/bin"
+    curl -sSL https://cht.sh/:cht.sh > "$HOME/.local/bin/cheat"
+    chmod +x "$HOME/.local/bin/cheat"
+else
+    echo "cheat already installed."
+fi
+
 # Ensure fisher is available
 if ! fish -c 'functions -q fisher' >/dev/null 2>&1; then
     echo "Installing fisher (fish plugin manager)..."
