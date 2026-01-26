@@ -7,14 +7,9 @@
 // from the command palette.
 [
   {
-    "bindings": {
-      "cmd-ö": "debugger::FocusTerminal"
-    }
-  },
-  {
     "context": "Workspace",
     "bindings": {
-      "cmd-ö": "terminal_panel::ToggleFocus",
+      "cmd-§": "terminal_panel::ToggleFocus",
       "ctrl-cmd-shift-alt-o": [
         "workspace::MoveItemToPaneInDirection",
         { "direction": "right" }

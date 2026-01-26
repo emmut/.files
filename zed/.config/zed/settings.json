@@ -7,14 +7,38 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "diagnostics": {
+    "inline": {
+      "enabled": true
+    }
+  },
+  "ssh_connections": [
+    {
+      "host": "ma",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/compileit"
+          ]
+        }
+      ]
+    },
+    {
+      "host": "markbyr",
+      "args": [],
+      "projects": []
+    }
+  ],
   "base_keymap": "Cursor",
   "disable_ai": false,
   "buffer_line_height": "standard",
   "agent": {
+    "default_profile": "ask",
     "dock": "left",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-5",
+      "provider": "openai",
+      "model": "gpt-5",
     },
     "model_parameters": [],
   },
