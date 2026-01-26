@@ -6,3 +6,7 @@ if status is-interactive
     zoxide init fish | source
     fnm env --use-on-cd --shell fish --corepack-enabled --version-file-strategy recursive | source
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
