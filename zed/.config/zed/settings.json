@@ -7,11 +7,6 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-	"diagnostics": {
-		"inline": {
-			"enabled": true
-		}
-	},
 	"ssh_connections": [
 		{
 			"host": "ma",
@@ -28,9 +23,23 @@
 			"projects": []
 		}
 	],
+	"git": {
+		"inline_blame": {
+			"show_commit_summary": true
+		}
+	},
+	"diagnostics": {
+		"inline": {
+			"enabled": true
+		}
+	},
 	"base_keymap": "Cursor",
 	"disable_ai": false,
 	"buffer_line_height": "standard",
+	"buffer_font_features": {
+		"calt": false,
+		"liga": false
+	},
 	"agent": {
 		"default_profile": "ask",
 		"dock": "left",
@@ -123,6 +132,25 @@
 				"source.fixAll.biome": true,
 				"source.organizeImports.biome": true
 			}
+		},
+		"Python": {
+			"show_edit_predictions": false,
+			"tab_size": 4,
+			"language_servers": ["basedpyright", "ruff"],
+			"format_on_save": "on",
+			"formatter": [
+				{
+					"code_action": "source.fixAll.ruff"
+				},
+				{
+					"code_action": "source.organizeImports.ruff"
+				},
+				{
+					"language_server": {
+						"name": "ruff"
+					}
+				}
+			]
 		}
 	}
 }
