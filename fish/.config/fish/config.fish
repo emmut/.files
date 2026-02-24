@@ -7,6 +7,9 @@ if status is-interactive
     fnm env --use-on-cd --shell fish --corepack-enabled --version-file-strategy recursive | source
 end
 
+set -g desktop ~/Desktop
+set -g downloads ~/Downloads
+
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
