@@ -7,7 +7,6 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "enable_language_server": false,
   "edit_predictions": {
     "mode": "subtle",
   },
