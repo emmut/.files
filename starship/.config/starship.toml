@@ -5,6 +5,9 @@
 # Palettes must be defined _after_ this line
 palette = "catppuccin_macchiato"
 
+# Give slow commands (like fnm's node shims) more time on cold boot.
+command_timeout = 2000
+
 # Starship modules
 [character]
 # Note the use of Catppuccin color 'peach'
@@ -131,4 +134,3 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
-
