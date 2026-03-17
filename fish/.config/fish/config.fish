@@ -10,6 +10,10 @@ end
 set -g desktop ~/Desktop
 set -g downloads ~/Downloads
 
+# Editors
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
+
 # XDG base directory
 set --export XDG_CONFIG_HOME "$HOME/.config"
 
