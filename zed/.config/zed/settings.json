@@ -7,6 +7,14 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
   "edit_predictions": {
     "mode": "subtle"
   },
@@ -71,7 +79,15 @@
           }
         }
       }
-    }
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": ["cva", "cx"],
+        "experimental": {
+          "classRegex": ["[cls|className]\\s\\:\\=\\s\"([^\"]*)"],
+        },
+      },
+    },
   },
   "languages": {
     "Markdown": {
@@ -122,6 +138,11 @@
           "name": "oxc"
         }
       },
+      "language_servers": [
+        "typescript-language-server",
+        "emmet-language-server",
+        "tailwindcss-language-server",
+      ],
       "code_actions_on_format": {
         "source.fixAll.biome": true,
         "source.organizeImports.biome": true
