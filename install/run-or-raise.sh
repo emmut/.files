@@ -7,6 +7,7 @@ source "$SCRIPT_DIR/../scripts/utils.sh"
 ensure_command gsettings glib2
 
 if command -v pacman >/dev/null 2>&1; then
+  ensure_command wl-copy wl-clipboard
   ensure_command paru paru
 
   if ! have_command wofi-emoji; then
