@@ -21,9 +21,12 @@ fi
 gsettings set org.gnome.mutter.keybindings toggle-tiled-left "['<Control><Alt><Shift>Left']"
 gsettings set org.gnome.mutter.keybindings toggle-tiled-right "['<Control><Alt><Shift>Right']"
 gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Control><Alt><Shift>Return', '<Control><Alt><Shift>KP_Enter']"
-# Drop conflicting workspace-move aliases using <Control><Shift><Alt>{Left,Right}.
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Super><Shift>Page_Up', '<Super><Shift>KP_Prior', '<Super><Shift><Alt>Left']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Super><Shift>Page_Down', '<Super><Shift>KP_Next', '<Super><Shift><Alt>Right']"
+# Move focused window between workspaces without Super.
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Control><Alt><Shift>j']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Control><Alt><Shift>k']"
+# Switch workspaces without moving the focused window.
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Control><Alt><Shift>u']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Control><Alt><Shift>i']"
 gsettings set org.gnome.desktop.wm.keybindings minimize "['<Super>h']"
 
 # Reload extension if it is installed.
