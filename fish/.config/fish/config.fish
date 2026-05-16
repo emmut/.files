@@ -15,9 +15,6 @@ end
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    starship init fish | source
-    zoxide init fish | source
-
     # fnm environment setup
     if test -d ~/.fnm
         set -gx PATH "$HOME/.fnm:$PATH"
@@ -26,6 +23,8 @@ if status is-interactive
             fnm completions --shell fish | source
         end
     end
+    starship init fish | source
+    zoxide init fish | source
 
     # LS_COLORS setup
     if command -v vivid >/dev/null 2>&1

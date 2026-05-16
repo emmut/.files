@@ -7,17 +7,40 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "base_keymap": "Atom",
+  "use_system_prompts": true,
+  "status_bar": {
+    "active_language_button": false,
+  },
+  "debugger": {
+    "button": false,
+  },
+  "title_bar": {
+    "show_project_items": false,
+    "show_branch_name": false,
+    "show_menus": true,
+  },
   "buffer_line_height": "standard",
   "agent": {
     "dock": "left",
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-sonnet-4-5"
+      "model": "claude-sonnet-4-5",
     },
-    "model_parameters": []
+    "model_parameters": [],
   },
   "project_panel": {
-    "dock": "right"
+    "button": false,
+    "dock": "right",
   },
   "vim_mode": true,
   "theme": "Catppuccin Macchiato",
@@ -27,12 +50,12 @@
   "terminal": {
     "font_family": "FiraCode Nerd Font Mono",
     "line_height": {
-      "custom": 1.2
+      "custom": 1.2,
     },
     "font_size": 14,
     "font_features": {
-      "ligatures": true
-    }
+      "ligatures": true,
+    },
   },
-  "relative_line_numbers": "enabled"
+  "relative_line_numbers": "enabled",
 }
