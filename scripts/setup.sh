@@ -46,7 +46,12 @@ for dir in $STOW_DIRS; do
     fi
 
     echo "Stowing $dir..."
-    stow -v -R --adopt "$dir"
+    if [ "$dir" = "keyd" ]; then
+        echo "Using system target / for keyd package..."
+        sudo stow -v -R --adopt --target=/ "$dir"
+    else
+        stow -v -R --adopt "$dir"
+    fi
 done
 
 echo "Done."
