@@ -21,6 +21,10 @@ fi
 gsettings reset org.gnome.mutter.keybindings toggle-tiled-left
 gsettings reset org.gnome.mutter.keybindings toggle-tiled-right
 gsettings reset org.gnome.desktop.wm.keybindings toggle-fullscreen
+gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-left
+gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-right
+gsettings reset org.gnome.desktop.wm.keybindings minimize
 
 # Disable extension if present.
 if command -v gnome-extensions >/dev/null 2>&1; then
