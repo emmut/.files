@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+prompt='app-launcher'
+wofi_match="wofi.*--prompt ${prompt}"
+
+if pgrep -f "$wofi_match" >/dev/null 2>&1; then
+  pkill -f "$wofi_match" || true
+  exit 0
+fi
+
+exec wofi --show drun --prompt "$prompt" --normal-window --location center --width 900 --height 520 --matching fuzzy --insensitive
