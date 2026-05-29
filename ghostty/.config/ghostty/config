@@ -1,4 +1,4 @@
 font-family = FiraCode Nerd Font Mono
 theme = catppuccin-macchiato.conf
 window-padding-x = 8
-command = exec env fish   
+command = /usr/bin/env fish
