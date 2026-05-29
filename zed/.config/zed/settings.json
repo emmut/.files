@@ -7,6 +7,16 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "cli_default_open_behavior": "existing_window",
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "tab_size": 2,
   "agent_servers": {
     "codex-acp": {
@@ -20,6 +30,7 @@
     "mode": "subtle",
   },
   "git": {
+    "disable_git": false,
     "inline_blame": {
       "show_commit_summary": true,
     },
@@ -29,7 +40,7 @@
       "enabled": true,
     },
   },
-  "base_keymap": "Cursor",
+  "base_keymap": "SublimeText",
   "disable_ai": false,
   "buffer_line_height": "standard",
   "buffer_font_features": {
@@ -70,40 +81,6 @@
   "relative_line_numbers": "enabled",
   "formatter": "language_server",
   "format_on_save": "on",
-  "lsp": {
-    "typescript-language-server": {
-      "settings": {
-        "typescript": {
-          "preferences": {
-            "includePackageJsonAutoImports": "on",
-          },
-        },
-      },
-    },
-    "tailwindcss-language-server": {
-      "settings": {
-        "classFunctions": [
-          "cva",
-          "cx"
-        ],
-        "experimental": {
-          "classRegex": [
-            "[cls|className]\\s\\:\\=\\s\"([^\"]*)"
-          ],
-        },
-      },
-    },
-    "oxfmt": {
-      "initialization_options": {
-        "settings": {},
-      },
-    },
-    "oxlint": {
-      "initialization_options": {
-        "settings": {},
-      },
-    },
-  },
   "languages": {
     "Markdown": {
       "show_wrap_guides": false,
@@ -125,78 +102,6 @@
         {
           "language_server": {
             "name": "oxfmt",
-          },
-        },
-      ],
-    },
-    "JavaScript": {
-      "formatter": [
-        {
-          "language_server": {
-            "name": "oxfmt",
-          },
-        },
-        {
-          "code_action": "source.fixAll.oxc",
-        },
-        {
-          "code_action": "source.organizeImports",
-        },
-      ],
-    },
-    "TypeScript": {
-      "formatter": [
-        {
-          "language_server": {
-            "name": "oxfmt",
-          },
-        },
-        {
-          "code_action": "source.fixAll.oxc",
-        },
-        {
-          "code_action": "source.organizeImports",
-        },
-      ],
-    },
-    "TSX": {
-      "formatter": [
-        {
-          "language_server": {
-            "name": "oxfmt",
-          },
-        },
-        {
-          "code_action": "source.fixAll.oxc",
-        },
-        {
-          "code_action": "source.organizeImports",
-        },
-      ],
-      "language_servers": [
-        "typescript-language-server",
-        "emmet-language-server",
-        "tailwindcss-language-server",
-      ],
-    },
-    "Python": {
-      "show_edit_predictions": false,
-      "tab_size": 4,
-      "language_servers": [
-        "basedpyright",
-        "ruff"
-      ],
-      "format_on_save": "on",
-      "formatter": [
-        {
-          "code_action": "source.fixAll.ruff",
-        },
-        {
-          "code_action": "source.organizeImports.ruff",
-        },
-        {
-          "language_server": {
-            "name": "ruff",
           },
         },
       ],

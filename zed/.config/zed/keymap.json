@@ -10,10 +10,7 @@
     "context": "Workspace",
     "bindings": {
       "cmd-§": "terminal_panel::ToggleFocus",
-      "ctrl-cmd-shift-alt-o": [
-        "workspace::MoveItemToPaneInDirection",
-        { "direction": "right" }
-      ]
+      "ctrl-cmd-shift-alt-o": ["workspace::MoveItemToPaneInDirection", { "direction": "right" }]
     }
   },
   {
@@ -27,6 +24,16 @@
       ],
       "cmd-shift-l": "workspace::ToggleLeftDock",
       "cmd-l": "agent::AddSelectionToThread"
+    }
+  },
+  {
+    "bindings": {
+      "cmd-k shift-right": "pane::SplitAndMoveRight"
+    }
+  },
+  {
+    "bindings": {
+      "cmd-k left": "pane::SplitAndMoveLeft"
     }
   }
 ]
