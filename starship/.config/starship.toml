@@ -18,6 +18,10 @@ error_symbol = "[[●](red)](peach)"
 [git_branch]
 style = "bold mauve"
 
+[gcloud]
+# Show icon + account only when an account is active; hide entirely otherwise.
+format = '[(on $symbol$account(@$domain)(\($region\)) )]($style)'
+
 [directory]
 truncation_length = 4
 style = "bold lavender"
