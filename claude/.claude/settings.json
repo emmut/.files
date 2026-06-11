@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run check-types)",
+      "Bash(bun run check-types *)",
+      "Bash(bun run test)",
+      "Bash(bun run test *)",
+      "Bash(bun test)",
+      "Bash(bun test *)",
+      "Bash(bun x ultracite check)",
+      "Bash(bun x ultracite check *)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm tsc *)"
+    ]
+  },
+  "model": "claude-fable-5[1m]",
+  "worktree": {
+    "baseRef": "head"
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "worktrunk@worktrunk": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "worktrunk": {
+      "source": {
+        "source": "github",
+        "repo": "max-sixty/worktrunk"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "auto"
+}
