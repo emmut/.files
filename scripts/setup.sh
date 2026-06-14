@@ -60,6 +60,9 @@ else
     fi
 fi
 
+# Track packages whose setup did not fully succeed.
+FAILED=""
+
 # Process each directory
 for dir in $STOW_DIRS; do
     echo "Processing $dir..."
@@ -70,20 +73,36 @@ for dir in $STOW_DIRS; do
         continue
     fi
 
-    # Check for and run dependency script
+    # Run the dependency script (non-fatal: one failure must not abort the whole run).
     if [ -f "install/$dir.sh" ]; then
         echo "Found dependency script for $dir. Running it..."
         chmod +x "install/$dir.sh"
-        ./install/"$dir.sh"
+        if ! ./install/"$dir.sh"; then
+            echo "WARNING: install/$dir.sh failed; skipping $dir."
+            FAILED="$FAILED $dir"
+            continue
+        fi
     fi
 
     echo "Stowing $dir..."
     if [ "$dir" = "keyd" ]; then
         echo "Using system target / for keyd package..."
-        sudo stow -v -R --adopt --target=/ "$dir"
+        if ! sudo stow -v -R --adopt --target=/ "$dir"; then
+            echo "WARNING: stow failed for $dir."
+            FAILED="$FAILED $dir"
+        fi
     else
-        stow -v -R --adopt "$dir"
+        if ! stow -v -R --adopt "$dir"; then
+            echo "WARNING: stow failed for $dir."
+            FAILED="$FAILED $dir"
+        fi
     fi
 done
 
-echo "Done."
+if [ -n "$FAILED" ]; then
+    echo
+    echo "Done, but these packages had problems:$FAILED"
+    echo "Re-run ./scripts/setup.sh <app> after resolving them."
+else
+    echo "Done."
+fi
