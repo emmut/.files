@@ -46,6 +46,3 @@ if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]
 else
     echo "zsh-autosuggestions already installed."
 fi
-
-# Install neovim
-ensure_command neovim nvim

@@ -4,6 +4,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../scripts/utils.sh"
 
+# run-or-raise wires up GNOME (Mutter) keybindings; skip where GNOME/gsettings
+# is unavailable, including macOS and non-GNOME Linux desktops.
+if ! command -v gsettings >/dev/null 2>&1; then
+    echo "gsettings not found; skipping run-or-raise (GNOME only)."
+    exit 0
+fi
+
 ensure_command gsettings glib2
 
 if command -v pacman >/dev/null 2>&1; then

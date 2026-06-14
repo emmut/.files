@@ -30,13 +30,19 @@ if [ -n "$1" ]; then
     STOW_DIRS=$1
 else
     # Find all directories that can be stowed
-    # Exclude .git, scripts, and other non-dotfile directories
-    STOW_DIRS=$(find . -maxdepth 1 -type d -not -name ".*" -not -name "scripts" -not -name "README.md" -exec basename {} \;)
+    # Exclude .git, helper script dirs, and other non-dotfile directories
+    STOW_DIRS=$(find . -maxdepth 1 -type d -not -name ".*" -not -name "scripts" -not -name "install" -not -name "uninstall" -not -name "README.md" -exec basename {} \;)
 fi
 
 # Process each directory
 for dir in $STOW_DIRS; do
     echo "Processing $dir..."
+
+    # Skip Linux-only packages on other platforms (e.g. keyd on macOS).
+    if [ "$dir" = "keyd" ] && [ "$(uname -s)" != "Linux" ]; then
+        echo "Skipping keyd (Linux only)..."
+        continue
+    fi
 
     # Check for and run dependency script
     if [ -f "install/$dir.sh" ]; then

@@ -33,6 +33,29 @@ ensure_command() {
     install_packages "$pkg"
 }
 
+# Install a GUI app: Homebrew cask on macOS, otherwise the system package manager.
+# Usage: ensure_cask <command> [cask_name] [linux_package]
+ensure_cask() {
+    local cmd="$1"
+    local cask="${2:-$cmd}"
+    local pkg="${3:-$cmd}"
+
+    if have_command "$cmd"; then
+        echo "$cmd already installed."
+        return 0
+    fi
+
+    if command -v brew >/dev/null 2>&1; then
+        if brew list --cask "$cask" >/dev/null 2>&1; then
+            echo "$cmd already installed via Homebrew cask."
+        else
+            brew install --cask "$cask"
+        fi
+    else
+        install_packages "$pkg"
+    fi
+}
+
 # Function to remove packages using the detected package manager
 remove_package() {
     local pkg="$1"

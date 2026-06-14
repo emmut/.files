@@ -4,6 +4,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../scripts/utils.sh"
 
+# keyd is Linux-only; nothing to do on other platforms.
+if [[ "$(uname -s)" != "Linux" ]]; then
+    echo "keyd is Linux-only; skipping on this platform."
+    exit 0
+fi
+
 confirm "$(basename "$0" .sh)" || exit 0
 
 echo "Uninstalling keyd..."

@@ -17,16 +17,18 @@ if command -v pacman >/dev/null 2>&1 && pacman -Q wofi-emoji >/dev/null 2>&1; th
   fi
 fi
 
-# Reset window management shortcuts back to GNOME defaults.
-gsettings reset org.gnome.mutter.keybindings toggle-tiled-left
-gsettings reset org.gnome.mutter.keybindings toggle-tiled-right
-gsettings reset org.gnome.desktop.wm.keybindings toggle-fullscreen
-gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
-gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-left
-gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-right
-gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-left
-gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-right
-gsettings reset org.gnome.desktop.wm.keybindings minimize
+# Reset window management shortcuts back to GNOME defaults (GNOME only).
+if command -v gsettings >/dev/null 2>&1; then
+  gsettings reset org.gnome.mutter.keybindings toggle-tiled-left
+  gsettings reset org.gnome.mutter.keybindings toggle-tiled-right
+  gsettings reset org.gnome.desktop.wm.keybindings toggle-fullscreen
+  gsettings reset org.gnome.desktop.wm.keybindings toggle-maximized
+  gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-left
+  gsettings reset org.gnome.desktop.wm.keybindings move-to-workspace-right
+  gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-left
+  gsettings reset org.gnome.desktop.wm.keybindings switch-to-workspace-right
+  gsettings reset org.gnome.desktop.wm.keybindings minimize
+fi
 
 # Disable extension if present.
 if command -v gnome-extensions >/dev/null 2>&1; then
