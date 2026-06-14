@@ -31,7 +31,33 @@ if [ -n "$1" ]; then
 else
     # Find all directories that can be stowed
     # Exclude .git, helper script dirs, and other non-dotfile directories
-    STOW_DIRS=$(find . -maxdepth 1 -type d -not -name ".*" -not -name "scripts" -not -name "install" -not -name "uninstall" -not -name "README.md" -exec basename {} \;)
+    STOW_DIRS=$(find . -maxdepth 1 -type d -not -name ".*" -not -name "scripts" -not -name "install" -not -name "uninstall" -not -name "README.md" -exec basename {} \; | sort)
+
+    # When running interactively with no specific app, offer a checkbox menu.
+    if [ -t 0 ] && [ -t 1 ]; then
+        # gum renders the checkbox UI; install it on first run (best-effort).
+        if ! command -v gum >/dev/null 2>&1; then
+            echo "Installing gum for the interactive selector..."
+            ensure_command gum || true
+        fi
+
+        if command -v gum >/dev/null 2>&1; then
+            ALL_LABEL="[ Select all ]"
+            SELECTED=$(printf '%s\n' "$ALL_LABEL" $STOW_DIRS | gum choose --no-limit \
+                --height=20 \
+                --header="Choose apps (space toggles, enter confirms). Pick '[ Select all ]' for everything:")
+            if [ -z "$SELECTED" ]; then
+                echo "Nothing selected. Exiting."
+                exit 0
+            fi
+            # "[ Select all ]" expands to the full discovered list; otherwise use the picks.
+            if ! printf '%s\n' "$SELECTED" | grep -qxF "$ALL_LABEL"; then
+                STOW_DIRS=$SELECTED
+            fi
+        else
+            echo "gum unavailable; continuing with all applications."
+        fi
+    fi
 fi
 
 # Process each directory
