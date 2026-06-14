@@ -31,3 +31,17 @@ if status is-interactive
         set -gx LS_COLORS (vivid generate catppuccin-macchiato)
     end
 end
+
+set -g desktop ~/Desktop
+set -g downloads ~/Downloads
+
+# Editors
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
+
+# XDG base directory
+set --export XDG_CONFIG_HOME "$HOME/.config"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

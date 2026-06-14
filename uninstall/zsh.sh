@@ -11,8 +11,7 @@ echo "Uninstalling zsh..."
 # Remove zsh using package manager
 remove_package zsh
 
-# Remove config files
+# Remove config files (p10k is handled by uninstall/p10k.sh)
 unstow_config zsh
-unstow_config p10k
 
 echo "zsh uninstalled successfully!"

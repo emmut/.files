@@ -37,6 +37,31 @@ else
     echo "Node.js $(node --version) is already installed"
 fi
 
+# Install bun if missing (package managers rarely ship it)
+if ! have_command bun; then
+    echo "Installing bun..."
+    curl -fsSL https://bun.sh/install | bash
+else
+    echo "bun already installed."
+fi
+
+# Make a freshly installed bun available for the rest of this script
+if [ -d "$HOME/.bun/bin" ]; then
+    export PATH="$HOME/.bun/bin:$PATH"
+fi
+
+# Install @antfu/ni (provides the `nr` command) if missing
+if ! have_command nr; then
+    echo "Installing @antfu/ni (provides nr)..."
+    if have_command bun; then
+        bun add -g @antfu/ni
+    else
+        echo "Error: bun not found; cannot install @antfu/ni." >&2
+    fi
+else
+    echo "nr already installed."
+fi
+
 # Install cheat if missing
 if [[ ! -f "$HOME/.local/bin/cheat" ]]; then
     echo "Installing cheat..."

@@ -21,6 +21,10 @@ remove_package trash-cli
 echo "Removing fnm..."
 rm -rf "$HOME/.fnm"
 
+# Remove bun (also removes the bun-global @antfu/ni that provides nr)
+echo "Removing bun..."
+rm -rf "$HOME/.bun"
+
 # Remove cheat script
 echo "Removing cheat script..."
 rm -f "$HOME/.local/bin/cheat"

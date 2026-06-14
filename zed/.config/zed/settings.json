@@ -8,6 +8,7 @@
 // from the command palette or from `Zed` application menu.
 {
   "cli_default_open_behavior": "existing_window",
+  "tab_size": 2,
   "outline_panel": {
     "dock": "left"
   },
@@ -17,8 +18,29 @@
   "git_panel": {
     "dock": "left"
   },
-  "base_keymap": "Atom",
+  "base_keymap": "Cursor",
   "use_system_prompts": true,
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+    },
+    "claude-acp": {
+      "type": "registry",
+    },
+  },
+  "edit_predictions": {
+    "mode": "subtle",
+  },
+  "git": {
+    "inline_blame": {
+      "show_commit_summary": true,
+    },
+  },
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+    },
+  },
   "status_bar": {
     "active_language_button": false,
   },
@@ -31,11 +53,16 @@
     "show_menus": true,
   },
   "buffer_line_height": "standard",
+  "buffer_font_features": {
+    "calt": false,
+    "liga": false,
+  },
   "agent": {
+    "default_profile": "ask",
     "dock": "left",
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-sonnet-4-5",
+      "model": "claude-sonnet-4-6",
     },
     "model_parameters": [],
   },
@@ -59,4 +86,138 @@
     },
   },
   "relative_line_numbers": "enabled",
+  "formatter": "language_server",
+  "format_on_save": "on",
+  "lsp": {
+    "typescript-language-server": {
+      "settings": {
+        "typescript": {
+          "preferences": {
+            "includePackageJsonAutoImports": "on",
+          },
+        },
+      },
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classFunctions": [
+          "cva",
+          "cx"
+        ],
+        "experimental": {
+          "classRegex": [
+            "[cls|className]\\s\\:\\=\\s\"([^\"]*)"
+          ],
+        },
+      },
+    },
+    "oxfmt": {
+      "initialization_options": {
+        "settings": {},
+      },
+    },
+    "oxlint": {
+      "initialization_options": {
+        "settings": {},
+      },
+    },
+  },
+  "languages": {
+    "Markdown": {
+      "show_wrap_guides": false,
+      "preferred_line_length": 75,
+      "hard_tabs": true,
+      "tab_size": 5,
+    },
+    "JSON": {
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+      ],
+    },
+    "JSONC": {
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+      ],
+    },
+    "JavaScript": {
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+        {
+          "code_action": "source.fixAll.oxc",
+        },
+        {
+          "code_action": "source.organizeImports",
+        },
+      ],
+    },
+    "TypeScript": {
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+        {
+          "code_action": "source.fixAll.oxc",
+        },
+        {
+          "code_action": "source.organizeImports",
+        },
+      ],
+    },
+    "TSX": {
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+        {
+          "code_action": "source.fixAll.oxc",
+        },
+        {
+          "code_action": "source.organizeImports",
+        },
+      ],
+      "language_servers": [
+        "typescript-language-server",
+        "emmet-language-server",
+        "tailwindcss-language-server",
+      ],
+    },
+    "Python": {
+      "show_edit_predictions": false,
+      "tab_size": 4,
+      "language_servers": [
+        "basedpyright",
+        "ruff"
+      ],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.ruff",
+        },
+        {
+          "code_action": "source.organizeImports.ruff",
+        },
+        {
+          "language_server": {
+            "name": "ruff",
+          },
+        },
+      ],
+    },
+  },
 }
