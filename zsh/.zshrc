@@ -132,8 +132,6 @@ compinit
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
-alias cd="z"
-
 if [[ -n "$TMUX" ]]; then
   export TERM="tmux-256color"
 else
