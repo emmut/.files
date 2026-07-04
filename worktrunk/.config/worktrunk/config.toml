@@ -1,0 +1,7 @@
+pre-start= [{ copy = "wt step copy-ignored" }, { install = "ni" }]
+skip-commit-generation-prompt = true
+
+[step.copy-ignored]
+exclude = [".cache/", ".turbo/"]
+
+[projects]
