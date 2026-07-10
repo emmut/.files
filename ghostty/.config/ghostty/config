@@ -48,7 +48,8 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
-font-family = FiraCode Nerd Font Mono
+font-family = FiraCode Nerd Font
+font-feature = +liga
 theme = catppuccin-macchiato.conf
 window-padding-x = 8
 command = exec env fish
