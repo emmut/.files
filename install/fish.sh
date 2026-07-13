@@ -14,6 +14,8 @@ ensure_command curl
 ensure_command git
 ensure_command trash-cli
 ensure_command lsd
+# killport uses lsof to find processes by port
+ensure_command lsof
 
 # Install fnm if missing (package managers rarely ship it)
 if ! have_command fnm; then
@@ -60,6 +62,42 @@ if ! have_command nr; then
     fi
 else
     echo "nr already installed."
+fi
+
+# Install uv if missing (conf.d/uv.env.fish sources its env file).
+# The official installer creates ~/.local/bin/env.fish on macOS and Linux.
+if ! have_command uv; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "uv already installed."
+fi
+
+# Install opencode if missing (the `oo` alias). The official installer
+# works on both macOS and Linux.
+if ! have_command opencode; then
+    if command -v brew >/dev/null 2>&1; then
+        brew install sst/tap/opencode || echo "Could not install opencode via brew."
+    else
+        echo "Installing opencode..."
+        curl -fsSL https://opencode.ai/install | bash
+    fi
+else
+    echo "opencode already installed."
+fi
+
+# Install cursor if missing (the `c` alias). GUI editor: Homebrew cask on
+# macOS, AUR on Arch; no repo package on Debian/Ubuntu.
+if ! have_command cursor; then
+    if command -v brew >/dev/null 2>&1; then
+        brew install --cask cursor || echo "Could not install cursor via brew."
+    elif command -v paru >/dev/null 2>&1; then
+        paru -S --noconfirm cursor-bin || echo "Could not install cursor via paru."
+    else
+        echo "cursor not installed; download it from https://cursor.com/downloads."
+    fi
+else
+    echo "cursor already installed."
 fi
 
 # Install cheat if missing

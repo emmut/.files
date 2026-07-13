@@ -25,6 +25,7 @@ cd dotfiles
 - **Shells**: Fish, Zsh (with Oh My Zsh + Powerlevel10k)
 - **Editor**: Neovim (kickstart-based submodule), Zed
 - **Tools**: Bat, Delta, Lazygit, Starship, Tmux
+- **AI/CLI tooling**: Claude Code (settings, notification hook, skills), opencode, uv
 - **Linux extras**: keyd (key remapper), run-or-raise (GNOME shortcuts)
 - **macOS extras**: Finicky (browser router)
 - **Themes**: Catppuccin themes for all supported applications
