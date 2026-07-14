@@ -1,5 +1,9 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  # Where this repo is checked out; the config links below point into it.
+  dotfiles = "${config.home.homeDirectory}/.files";
+in
 {
   home.username = "emmut";
   home.homeDirectory =
@@ -24,5 +28,18 @@
     lsd
     ripgrep
     fd
+    fish
+    tmux
   ];
+
+  # Configs for fish and tmux, replacing their stow packages (unstow them
+  # before switching). mkOutOfStoreSymlink links straight into the repo —
+  # same live-edit behavior as stow (no rebuild needed to change a config),
+  # but the links themselves are declared here and applied atomically.
+  # Requires the repo at ~/.files. Runtime files (fish_variables, fisher
+  # plugins) keep working since the linked repo dir stays writable.
+  xdg.configFile."fish".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/fish/.config/fish";
+  home.file.".tmux.conf".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux/.tmux.conf";
 }

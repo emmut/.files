@@ -69,8 +69,13 @@ flake as a declarative alternative to the `install/` scripts. It runs **standalo
 on Arch Linux and macOS — no NixOS involved. Nix only installs the CLI binaries
 (same store paths on every machine and architecture, atomic rollbacks); the stow
 packages keep managing all configs exactly as before. It currently declares a small
-starter set (bat, delta, lazygit, starship, zoxide, fzf, lsd, ripgrep, fd) — add
-more to `home.packages` in `nix/home.nix` as needed.
+starter set (bat, delta, lazygit, starship, zoxide, fzf, lsd, ripgrep, fd, fish,
+tmux) — add more to `home.packages` in `nix/home.nix` as needed.
+
+For **fish** and **tmux** home-manager also manages the configs (replacing their
+stow packages): `home.nix` links `~/.config/fish` and `~/.tmux.conf` straight
+into this repo via `mkOutOfStoreSymlink`, so edits are live without a rebuild,
+just like stow. The other apps' configs stay stow-managed.
 
 ### From scratch
 
@@ -97,6 +102,20 @@ remove those copies (or accept that PATH order decides which one wins).
 
 If your username or home directory differs (e.g. in a VM), adjust
 `home.username` / `home.homeDirectory` in `nix/home.nix`.
+
+### Updating an existing (stowed) machine to this setup
+
+```bash
+cd ~/.files && git pull                # get this branch's state
+stow -D fish tmux                      # hand fish/tmux links over to home-manager
+home-manager switch --flake ~/.files/nix#linux
+exec fish                              # reload the shell; restart tmux sessions too
+```
+
+home-manager refuses to overwrite files it doesn't own, so unstowing first is
+required — otherwise the switch fails on the existing `~/.config/fish` link.
+TPM (tmux plugins) is still cloned by `install/tmux.sh`; run it once on a fresh
+machine or install plugins with `prefix+I`.
 
 ### Everyday commands
 
