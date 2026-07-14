@@ -13,7 +13,12 @@
     let
       mkHome = system:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            inherit system;
+            # claude-code is unfree; allow it (and nothing else) explicitly.
+            config.allowUnfreePredicate = pkg:
+              builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
+          };
           modules = [ ./home.nix ];
         };
     in {
