@@ -15,4 +15,8 @@ remove_package tmux
 echo "Removing tmux configuration..."
 rm -f "$HOME/.tmux.conf"
 
+# Remove TPM and the plugins it installed (install/tmux.sh sets these up)
+echo "Removing TPM and tmux plugins..."
+rm -rf "$HOME/.tmux"
+
 echo "tmux uninstalled successfully!"

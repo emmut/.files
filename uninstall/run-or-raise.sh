@@ -30,10 +30,11 @@ if command -v gsettings >/dev/null 2>&1; then
   gsettings reset org.gnome.desktop.wm.keybindings minimize
 fi
 
-# Disable extension if present.
+# Remove the extension (install/run-or-raise.sh installs it).
 if command -v gnome-extensions >/dev/null 2>&1; then
   if gnome-extensions info run-or-raise@edvard.cz >/dev/null 2>&1; then
     gnome-extensions disable run-or-raise@edvard.cz || true
+    gnome-extensions uninstall run-or-raise@edvard.cz || true
   fi
 fi
 

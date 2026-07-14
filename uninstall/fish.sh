@@ -29,6 +29,15 @@ rm -rf "$HOME/.bun"
 echo "Removing cheat script..."
 rm -f "$HOME/.local/bin/cheat"
 
+# Remove uv and opencode (install/fish.sh installs both via their
+# official installers; cursor comes from the system package manager,
+# so it is left alone here)
+echo "Removing uv..."
+rm -f "$HOME/.local/bin/uv" "$HOME/.local/bin/uvx"
+echo "Removing opencode..."
+rm -rf "$HOME/.opencode"
+rm -f "$HOME/.local/bin/opencode"
+
 # Remove fish plugins and fisher
 echo "Removing fish plugins..."
 if command -v fish >/dev/null 2>&1; then

@@ -101,7 +101,7 @@ unstow_config() {
     if command -v stow >/dev/null 2>&1; then
         echo "Unstowing $config_name configuration..."
         cd "$dotfiles_dir"
-        stow -d . -D "$config_name" 2>/dev/null || echo "$config_name not stowed or already unstowed"
+        stow -d . -D --target="$HOME" "$config_name" 2>/dev/null || echo "$config_name not stowed or already unstowed"
     else
         echo "Warning: stow not found, removing config directory directly"
         rm -rf "$HOME/.config/$config_name"
