@@ -21,6 +21,39 @@ have_command() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Prime sudo up front so package operations don't stall mid-run waiting for a
+# password; a background loop keeps the timestamp fresh until the script exits.
+# Skipped on macOS: everything installs through Homebrew, which refuses sudo.
+prime_sudo() {
+    if [ "$(uname -s)" = "Linux" ] && [ "$(id -u)" -ne 0 ] && command -v sudo >/dev/null 2>&1; then
+        echo "Requesting sudo access up front (used for package installs/removals)..."
+        sudo -v
+        ( while kill -0 "$$" 2>/dev/null; do sudo -n true 2>/dev/null; sleep 50; done ) &
+    fi
+}
+
+# Return 0 if the named process is an ancestor of this script — i.e. the
+# session we're running in depends on it (e.g. uninstalling fish from fish).
+ancestor_process() {
+    local name="$1" pid=$PPID comm
+    while [ -n "$pid" ] && [ "$pid" != "0" ] && [ "$pid" != "1" ]; do
+        comm=$(ps -o comm= -p "$pid" 2>/dev/null | tr -d '[:space:]')
+        [ -n "$comm" ] || return 1
+        comm=${comm##*/}   # macOS ps prints the full path
+        comm=${comm#-}     # login shells are prefixed with -
+        [ "$comm" = "$name" ] && return 0
+        pid=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d '[:space:]')
+    done
+    return 1
+}
+
+# Refuse an uninstall that would break the session it's running in.
+abort_in_use() {
+    echo "Refusing to uninstall $1: $2." >&2
+    echo "Re-run from a session that doesn't depend on $1." >&2
+    exit 1
+}
+
 # stow --adopt moves pre-existing target files into the repo, which clobbers
 # tracked configs (e.g. the Oh My Zsh template ~/.zshrc replacing our .zshrc).
 # Usage: capture BEFORE=$(git status --porcelain -- <pkg>...) prior to stowing,

@@ -4,6 +4,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../scripts/utils.sh"
 
+# Removing the shell out from under the current session breaks it.
+if ancestor_process zsh; then
+    abort_in_use zsh "this script is running inside a zsh session"
+fi
+
 confirm "$(basename "$0" .sh)" || exit 0
 
 echo "Uninstalling zsh..."

@@ -47,6 +47,33 @@ if [ "$(uname -s)" = "Darwin" ]; then
     fi
 fi
 
+# Package dependencies: selecting a package also processes the ones it
+# requires. lazygit's config uses delta as its pager with a theme from
+# bat's cache, so both must be installed and stowed alongside it.
+package_deps() {
+    case "$1" in
+        lazygit) echo "delta bat" ;;
+    esac
+}
+
+# Expand a package list with dependencies (deps first), deduplicated.
+expand_deps() {
+    local out="" d dep
+    for d in $1; do
+        for dep in $(package_deps "$d") "$d"; do
+            case " $out " in
+                *" $dep "*) ;;
+                *) out="$out $dep" ;;
+            esac
+        done
+    done
+    echo "$out"
+}
+
+# Ask for the sudo password once up front so package installs don't stall
+# mid-run waiting for it.
+prime_sudo
+
 # Packages that only apply to one platform: skip both their install script
 # and stowing anywhere else. keyd's key remapping is handled by a non-CLI
 # solution on macOS, so it stays Linux-only.
@@ -106,6 +133,9 @@ else
         fi
     fi
 fi
+
+# Pull in dependencies of the selected packages.
+STOW_DIRS=$(expand_deps "$STOW_DIRS")
 
 # Track packages whose setup did not fully succeed.
 FAILED=""

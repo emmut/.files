@@ -4,6 +4,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../scripts/utils.sh"
 
+# Removing the shell (or the starship prompt it runs) out from under the
+# current session breaks it.
+if ancestor_process fish; then
+    abort_in_use fish "this script is running inside a fish session"
+fi
+if [ -n "${STARSHIP_SHELL:-}" ]; then
+    abort_in_use starship "this shell's prompt is powered by starship (fish uninstall removes it too)"
+fi
+
 confirm "$(basename "$0" .sh) and all related tools" || exit 0
 
 echo "Uninstalling fish and related tools..."
