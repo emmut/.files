@@ -25,5 +25,6 @@
     ./apps/starship.nix
     ./apps/tmux.nix
     ./apps/worktrunk.nix
+    ./apps/zsh.nix
   ];
 }

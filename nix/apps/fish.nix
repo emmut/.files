@@ -31,6 +31,16 @@ in
     opencode
     # the install script drops cht.sh into ~/.local/bin as `cheat`
     (writeShellScriptBin "cheat" ''exec ${cht-sh}/bin/cht.sh "$@"'')
+
+    # Plugins declaratively instead of fisher: their vendor_conf.d /
+    # vendor_functions.d land under ~/.nix-profile/share/fish/, which fish
+    # auto-loads via XDG_DATA_DIRS (home-manager sets the session vars).
+    # programs.fish is deliberately unused — it would generate config.fish
+    # and clash with the live-edit symlink below. Fallback if the vendor
+    # dirs don't load: fisher still works (fish_plugins is in the linked
+    # config dir).
+    fishPlugins.plugin-git
+    fishPlugins.done
   ];
 
   # Fish config, replacing its stow package (unstow before switching).
