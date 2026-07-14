@@ -62,6 +62,56 @@ on platforms where they don't apply:
 - `dnf` (Fedora)
 - `brew` (macOS, formulae and casks)
 
+## Nix (experimental)
+
+`nix/` contains a [home-manager](https://nix-community.github.io/home-manager/)
+flake as a declarative alternative to the `install/` scripts. It runs **standalone**
+on Arch Linux and macOS — no NixOS involved. Nix only installs the CLI binaries
+(same store paths on every machine and architecture, atomic rollbacks); the stow
+packages keep managing all configs exactly as before. It currently declares a small
+starter set (bat, delta, lazygit, starship, zoxide, fzf, lsd, ripgrep, fd) — add
+more to `home.packages` in `nix/home.nix` as needed.
+
+### From scratch
+
+```bash
+# 1. Install Nix (Determinate installer: works on Arch and macOS,
+#    enables flakes out of the box, has a clean uninstaller)
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
+# 2. Open a NEW terminal (the installer adds Nix to your shell), then apply:
+cd ~/.files/nix
+nix run home-manager -- switch --flake .#linux   # Arch / VM
+nix run home-manager -- switch --flake .#mac     # macOS (Apple Silicon)
+
+# 3. After the first switch, home-manager itself is installed:
+home-manager switch --flake .#linux
+```
+
+Binaries land in `~/.nix-profile/bin`, which the installer puts on PATH for new
+shells. Check with `which bat` — it should point into `/nix/store/...`.
+
+Before switching on a machine that already has these tools from pacman/brew,
+remove those copies (or accept that PATH order decides which one wins).
+
+If your username or home directory differs (e.g. in a VM), adjust
+`home.username` / `home.homeDirectory` in `nix/home.nix`.
+
+### Everyday commands
+
+```bash
+home-manager switch --flake ~/.files/nix#linux   # apply after editing home.nix
+home-manager generations                          # list previous states
+/nix/store/...-home-manager-generation/activate   # roll back: run any older generation's path
+nix flake update ~/.files/nix                     # bump nixpkgs (then switch)
+```
+
+### Uninstalling Nix
+
+```bash
+/nix/nix-installer uninstall   # Determinate installer's clean removal
+```
+
 ## Uninstalling
 
 Each application has a matching teardown script in `uninstall/`:
@@ -110,6 +160,7 @@ this repository structure. Prefer stowing individual apps over the whole tree, s
 ├── tmux/               # Tmux terminal multiplexer config
 ├── zed/                # Zed editor config
 ├── zsh/                # Zsh shell config
+├── nix/                # home-manager flake (experimental, see "Nix" above)
 ├── install/            # Per-app dependency install scripts
 ├── uninstall/          # Per-app uninstall scripts
 ├── uninstall_all.sh    # Runs every uninstall script
