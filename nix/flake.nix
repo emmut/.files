@@ -7,17 +7,34 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # OpenGL/Vulkan shims so nix-built GUI apps (alacritty, kitty, ghostty,
+    # zed, cursor) find the host drivers on non-NixOS Linux.
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, nixgl, ... }:
     let
       mkHome = system:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
-            # claude-code is unfree; allow it (and nothing else) explicitly.
+            # Unfree packages, allowed explicitly (and nothing else).
             config.allowUnfreePredicate = pkg:
-              builtins.elem (nixpkgs.lib.getName pkg) [ "claude-code" ];
+              builtins.elem (nixpkgs.lib.getName pkg) [
+                "claude-code"
+                "cursor"
+                "code-cursor"
+              ];
+          };
+          extraSpecialArgs = {
+            # null on darwin: the nixGL wrappers become no-ops there.
+            nixglPackages =
+              if nixpkgs.lib.hasSuffix "-linux" system
+              then nixgl.packages.${system}
+              else null;
           };
           modules = [ ./home.nix ];
         };

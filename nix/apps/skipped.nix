@@ -2,19 +2,12 @@
 # (`./scripts/setup.sh <app>`) remain authoritative. This module is a no-op;
 # it exists so every install/*.sh has an accounted-for counterpart here.
 #
-#   alacritty.sh, kitty.sh, ghostty.sh, zed.sh, finicky.sh
-#     GUI apps. On non-NixOS Arch, nix-built GUI apps risk OpenGL/driver
-#     mismatches; on macOS there's no clean /Applications integration.
-#     If ever revisited: ghostty is `ghostty` (linux) / `ghostty-bin`
-#     (darwin) in nixpkgs; finicky isn't packaged at all.
-#
 #   keyd.sh
-#     Needs a root systemd service plus uinput access; home-manager has no
-#     services.keyd (that's a NixOS module).
-#
-#   run-or-raise.sh
-#     GNOME extension + gsettings. `gnomeExtensions.run-or-raise` exists,
-#     but shell-version drift on Arch makes extensions.gnome.org safer.
+#     keyd is a system-level daemon: it needs a root systemd service
+#     (`systemctl enable --now keyd`) and uinput access, and its config
+#     lives in /etc/keyd. Standalone home-manager only manages the user
+#     environment, so this genuinely cannot be done here — the services.keyd
+#     module exists only on NixOS. Run `./scripts/setup.sh keyd` as before.
 { ... }:
 
 { }

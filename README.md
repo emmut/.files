@@ -69,11 +69,32 @@ flake as a declarative alternative to the `install/` scripts. It runs **standalo
 on Arch Linux and macOS — no NixOS involved. Nix only installs the CLI binaries
 (same store paths on every machine and architecture, atomic rollbacks); the stow
 packages keep managing all configs exactly as before. The flake mirrors every
-CLI install script one-to-one: each `nix/apps/<app>.nix` corresponds to
+install script one-to-one: each `nix/apps/<app>.nix` corresponds to
 `install/<app>.sh` (bat, claude, delta, fish, lazygit, nvim, starship, tmux,
-worktrunk, zsh + p10k). Deliberately **not** nix-managed — still installed via
-`./scripts/setup.sh <app>` — are the GUI apps (alacritty, kitty, ghostty, zed,
-cursor, finicky), keyd, and run-or-raise; `nix/apps/skipped.nix` documents why.
+worktrunk, zsh + p10k, plus the GUI apps: alacritty, kitty, ghostty, zed,
+cursor, finicky, and run-or-raise). Installing and uninstalling both go
+through nix: an app is installed because its module is imported in
+`nix/home.nix`, and removed by deleting that import line and running
+`home-manager switch` (rollback via `home-manager generations`).
+
+The single exception is **keyd** — it needs a root systemd service, which
+standalone home-manager cannot manage; `./scripts/setup.sh keyd` remains the
+way to install it (`nix/apps/skipped.nix` documents this).
+
+GUI-app notes:
+
+- On non-NixOS Linux, GUI apps are wrapped with
+  [nixGL](https://github.com/nix-community/nixGL) (see `nixGL.*` in
+  `home.nix`) so they find the host's OpenGL/Vulkan drivers. If zed still
+  hits driver trouble (mesa-git on CachyOS), `install/zed.sh` is the fallback.
+- On macOS, apps land in `~/Applications/Home Manager Apps`. finicky isn't
+  in nixpkgs, so `nix/apps/finicky.nix` packages the release .dmg directly.
+- zed's nixpkgs binary is `zeditor`; the module adds a `zed` shim.
+- run-or-raise declares its GNOME keybindings via `dconf.settings` instead
+  of imperative `gsettings` calls; note that `enabled-extensions` is owned
+  wholesale — hand-enabled extensions must be added to
+  `nix/apps/run-or-raise.nix`. Log out/in after the first switch so GNOME
+  Shell picks up the nix profile on `XDG_DATA_DIRS`.
 
 Trade-off to know about: nix-packaged `claude-code` and `opencode` can trail
 their upstream releases by days–weeks and can't self-update; the legacy
@@ -143,11 +164,15 @@ plugins; a leftover `~/.tmux/plugins` dir from TPM can be deleted.
 ### Everyday commands
 
 ```bash
-home-manager switch --flake ~/.files/nix#linux   # apply after editing home.nix
+home-manager switch --flake ~/.files/nix#linux   # apply after editing nix/
 home-manager generations                          # list previous states
 /nix/store/...-home-manager-generation/activate   # roll back: run any older generation's path
 nix flake update ~/.files/nix                     # bump nixpkgs (then switch)
 ```
+
+To uninstall an app, delete its `./apps/<app>.nix` line from the `imports`
+list in `nix/home.nix` and switch — package and generated config are removed
+atomically (configs still stowed are unaffected; unstow those separately).
 
 ### Uninstalling Nix
 

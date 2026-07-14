@@ -5,7 +5,7 @@
 #   - ni comes from nixpkgs instead of `bun add -g @antfu/ni`.
 #   - opencode from nixpkgs lags upstream by days–weeks; the legacy script
 #     stays the bleeding-edge option.
-#   - cursor is a GUI app -> skipped (see skipped.nix).
+#   - cursor lives in its own module (apps/cursor.nix).
 #   - curl/git are assumed present (nix itself needs them).
 { config, pkgs, ... }:
 
