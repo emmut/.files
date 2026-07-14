@@ -88,8 +88,9 @@ nix run home-manager -- switch --flake .#mac     # macOS (Apple Silicon)
 home-manager switch --flake .#linux
 ```
 
-Binaries land in `~/.nix-profile/bin`, which the installer puts on PATH for new
-shells. Check with `which bat` — it should point into `/nix/store/...`.
+Binaries land in `~/.nix-profile/bin`. The stowed fish config adds it to PATH
+(`fish/.config/fish/conf.d/nix.fish`); other shells get it from the installer's
+profile hook. Check with `which bat` — it should point into `/nix/store/...`.
 
 Before switching on a machine that already has these tools from pacman/brew,
 remove those copies (or accept that PATH order decides which one wins).
