@@ -72,10 +72,18 @@ packages keep managing all configs exactly as before. It currently declares a sm
 starter set (bat, delta, lazygit, starship, zoxide, fzf, lsd, ripgrep, fd, fish,
 tmux) — add more to `home.packages` in `nix/home.nix` as needed.
 
-For **fish** and **tmux** home-manager also manages the configs (replacing their
-stow packages): `home.nix` links `~/.config/fish` and `~/.tmux.conf` straight
-into this repo via `mkOutOfStoreSymlink`, so edits are live without a rebuild,
-just like stow. The other apps' configs stay stow-managed.
+Two apps' configs are also home-manager-managed (replacing their stow packages):
+
+- **fish**: `home.nix` links `~/.config/fish` straight into this repo via
+  `mkOutOfStoreSymlink`, so edits are live without a rebuild, just like stow.
+- **tmux**: fully declarative via `programs.tmux` — home-manager generates
+  `~/.config/tmux/tmux.conf` and installs the plugins (catppuccin theme,
+  sensible, yank, resurrect, continuum) from nixpkgs. No TPM, no `prefix+I`;
+  the theme works immediately. Trade-off: tmux config edits go in
+  `nix/home.nix` and take effect on the next `home-manager switch`
+  (`tmux/.tmux.conf` remains the source for stow-managed machines).
+
+The other apps' configs stay stow-managed.
 
 ### From scratch
 
@@ -113,9 +121,11 @@ exec fish                              # reload the shell; restart tmux sessions
 ```
 
 home-manager refuses to overwrite files it doesn't own, so unstowing first is
-required — otherwise the switch fails on the existing `~/.config/fish` link.
-TPM (tmux plugins) is still cloned by `install/tmux.sh`; run it once on a fresh
-machine or install plugins with `prefix+I`.
+required — otherwise the switch fails on the existing `~/.config/fish` link
+(alternatively `home-manager switch -b backup ...` moves conflicting files
+aside automatically). After switching, restart tmux (`tmux kill-server`) so it
+starts from the generated `~/.config/tmux/tmux.conf` with the nix-installed
+plugins; a leftover `~/.tmux/plugins` dir from TPM can be deleted.
 
 ### Everyday commands
 
