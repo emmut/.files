@@ -85,16 +85,24 @@ for dir in $STOW_DIRS; do
     fi
 
     echo "Stowing $dir..."
+    STATUS_BEFORE=$(git status --porcelain -- "$dir")
     if [ "$dir" = "keyd" ]; then
         echo "Using system target / for keyd package..."
         if ! sudo stow -v -R --adopt --target=/ "$dir"; then
             echo "WARNING: stow failed for $dir."
             FAILED="$FAILED $dir"
+        else
+            restore_adopted "$STATUS_BEFORE" "$dir"
+            # keyd was started by install/keyd.sh before the config existed;
+            # reload so the freshly linked /etc/keyd/default.conf takes effect.
+            sudo keyd reload || sudo systemctl restart keyd || true
         fi
     else
-        if ! stow -v -R --adopt "$dir"; then
+        if ! stow -v -R --adopt --target="$HOME" "$dir"; then
             echo "WARNING: stow failed for $dir."
             FAILED="$FAILED $dir"
+        else
+            restore_adopted "$STATUS_BEFORE" "$dir"
         fi
     fi
 done

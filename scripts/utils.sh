@@ -21,6 +21,24 @@ have_command() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# stow --adopt moves pre-existing target files into the repo, which clobbers
+# tracked configs (e.g. the Oh My Zsh template ~/.zshrc replacing our .zshrc).
+# Usage: capture BEFORE=$(git status --porcelain -- <pkg>...) prior to stowing,
+# then call restore_adopted "$BEFORE" <pkg>... to revert anything --adopt
+# changed so the repo version wins, while leaving unrelated local edits alone.
+# Must be called from the repo root.
+restore_adopted() {
+    local before="$1"; shift
+    local after adopted
+    after=$(git status --porcelain -- "$@")
+    adopted=$(comm -13 <(sort <<<"$before") <(sort <<<"$after") | awk '{print $NF}')
+    if [ -n "$adopted" ]; then
+        echo "Restoring repo versions of files adopted by stow:"
+        echo "$adopted"
+        echo "$adopted" | xargs git checkout --
+    fi
+}
+
 ensure_command() {
     local cmd="$1"
     local pkg="${2:-$cmd}"

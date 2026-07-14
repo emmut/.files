@@ -12,7 +12,12 @@ have_command bat || BAT_CMD=batcat
 
 # The bat config uses a Catppuccin theme; link the theme files and rebuild
 # the cache so bat (and delta) can find them.
-(cd "$SCRIPT_DIR/.." && stow -R --adopt bat)
+(
+    cd "$SCRIPT_DIR/.."
+    BEFORE=$(git status --porcelain -- bat)
+    stow -R --adopt --target="$HOME" bat
+    restore_adopted "$BEFORE" bat
+)
 if ! "$BAT_CMD" --list-themes 2>/dev/null | grep -q "Catppuccin"; then
     "$BAT_CMD" cache --build
 fi

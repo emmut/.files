@@ -12,10 +12,13 @@ ensure_command fzf
 ensure_command vivid
 ensure_command curl
 ensure_command git
-ensure_command trash-cli
+# trash-cli's binary is `trash`, not `trash-cli`
+ensure_command trash trash-cli
 ensure_command lsd
 # killport uses lsof to find processes by port
 ensure_command lsof
+# the fnm and bun installers both unpack zip archives
+ensure_command unzip
 
 # Install fnm if missing (package managers rarely ship it)
 if ! have_command fnm; then
@@ -113,7 +116,8 @@ fi
 # Ensure fisher is available
 if ! fish -c 'functions -q fisher' >/dev/null 2>&1; then
     echo "Installing fisher (fish plugin manager)..."
-    curl -sL https://git.io/fisher | fish -c 'source && fisher install jorgebucaran/fisher'
+    curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
+        | fish -c 'source && fisher install jorgebucaran/fisher'
 else
     echo "fisher already installed."
 fi

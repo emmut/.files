@@ -14,6 +14,17 @@ else
     echo "TPM already installed."
 fi
 
+# Stow the config now so TPM can preinstall the plugins it lists; otherwise
+# the first tmux launch has no theme/plugins until prefix+I is pressed.
+(
+    cd "$SCRIPT_DIR/.."
+    BEFORE=$(git status --porcelain -- tmux)
+    stow -R --adopt --target="$HOME" tmux
+    restore_adopted "$BEFORE" tmux
+)
+"$HOME/.tmux/plugins/tpm/bin/install_plugins" \
+    || echo "Could not preinstall tmux plugins; press prefix+I inside tmux."
+
 # Dependencies for the sesh session picker popup (see .tmux.conf).
 # gum and sesh aren't in every distro's default repos, so treat them as best-effort.
 if ! have_command gum; then

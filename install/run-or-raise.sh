@@ -15,12 +15,17 @@ ensure_command gsettings glib2
 
 if command -v pacman >/dev/null 2>&1; then
   ensure_command wl-copy wl-clipboard
-  ensure_command paru paru
 
-  if ! have_command wofi-emoji; then
-    paru -S --noconfirm wofi-emoji
+  # wofi-emoji is AUR-only; paru itself is not in vanilla Arch repos, so
+  # treat both as optional rather than failing the whole install.
+  if have_command paru; then
+    if ! have_command wofi-emoji; then
+      paru -S --noconfirm wofi-emoji || echo "Could not install wofi-emoji; the emoji shortcut won't work."
+    else
+      echo "wofi-emoji already installed."
+    fi
   else
-    echo "wofi-emoji already installed."
+    echo "paru not found; skipping wofi-emoji (AUR). Install paru and re-run for the emoji picker."
   fi
 fi
 
@@ -36,12 +41,27 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Cont
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Control><Alt><Shift>i']"
 gsettings set org.gnome.desktop.wm.keybindings minimize "['<Super>h']"
 
-# Reload extension if it is installed.
+# Install the extension from extensions.gnome.org if missing, then (re)enable it.
+UUID="run-or-raise@edvard.cz"
 if command -v gnome-extensions >/dev/null 2>&1; then
-  if gnome-extensions info run-or-raise@edvard.cz >/dev/null 2>&1; then
-    gnome-extensions disable run-or-raise@edvard.cz || true
-    gnome-extensions enable run-or-raise@edvard.cz || true
+  if gnome-extensions info "$UUID" >/dev/null 2>&1; then
+    gnome-extensions disable "$UUID" || true
+    gnome-extensions enable "$UUID" || true
   else
-    echo "run-or-raise@edvard.cz is not installed. Install it via Extension Manager."
+    echo "Installing $UUID from extensions.gnome.org..."
+    SHELL_VERSION="$(gnome-shell --version | grep -oE '[0-9]+' | head -1)"
+    DOWNLOAD_PATH="$(curl -fsSL "https://extensions.gnome.org/extension-info/?uuid=$UUID&shell_version=$SHELL_VERSION" \
+      | grep -oE '"download_url": *"[^"]+"' | cut -d'"' -f4 || true)"
+    if [ -n "$DOWNLOAD_PATH" ]; then
+      TMP_ZIP="$(mktemp --suffix=.zip)"
+      curl -fsSL "https://extensions.gnome.org$DOWNLOAD_PATH" -o "$TMP_ZIP"
+      gnome-extensions install --force "$TMP_ZIP"
+      rm -f "$TMP_ZIP"
+      # Newly installed extensions can't be enabled until GNOME Shell reloads.
+      gnome-extensions enable "$UUID" 2>/dev/null \
+        || echo "Extension installed. Log out and back in, then run: gnome-extensions enable $UUID"
+    else
+      echo "No $UUID build found for GNOME Shell $SHELL_VERSION; install it via Extension Manager."
+    fi
   fi
 fi

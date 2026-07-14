@@ -19,7 +19,12 @@ have_command bat || BAT_CMD=batcat
 
 # The theme files live in the bat stow package; link them and rebuild the
 # cache so delta can find "Catppuccin Mocha".
-(cd "$SCRIPT_DIR/.." && stow -R --adopt bat delta)
+(
+    cd "$SCRIPT_DIR/.."
+    BEFORE=$(git status --porcelain -- bat delta)
+    stow -R --adopt --target="$HOME" bat delta
+    restore_adopted "$BEFORE" bat delta
+)
 if ! "$BAT_CMD" --list-themes 2>/dev/null | grep -q "Catppuccin Mocha"; then
     "$BAT_CMD" cache --build
 fi
