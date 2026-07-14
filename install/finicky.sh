@@ -10,11 +10,7 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
     exit 0
 fi
 
-if have_command finicky; then
-    echo "finicky already installed."
-    exit 0
-fi
-
+# Finicky is a .app with no CLI binary, so check the cask rather than a command.
 if command -v brew >/dev/null 2>&1; then
     if ! brew list --cask finicky >/dev/null 2>&1; then
         brew install --cask finicky

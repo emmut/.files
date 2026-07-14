@@ -6,13 +6,60 @@
 
 set -e
 
+# Run from the repo root so `find`, install/ paths, and git status work
+# regardless of where the script was invoked from.
+cd "$(dirname "$0")/.."
+
 # Source the utility script
-source "$(dirname "$0")/utils.sh"
+source "scripts/utils.sh"
 
 # Function to install stow if not found
 install_stow() {
     echo "stow is not installed. Attempting to install..."
     install_packages stow
+}
+
+# On macOS everything installs through Homebrew, so bootstrap it first.
+if [ "$(uname -s)" = "Darwin" ]; then
+    # A fresh terminal may not have brew on PATH even when it's installed
+    # (Apple Silicon: /opt/homebrew, Intel: /usr/local).
+    if ! command -v brew >/dev/null 2>&1; then
+        for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+            if [ -x "$brew_bin" ]; then
+                eval "$("$brew_bin" shellenv)"
+                break
+            fi
+        done
+    fi
+    if ! command -v brew >/dev/null 2>&1; then
+        echo "Homebrew not found. Installing it first..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+            if [ -x "$brew_bin" ]; then
+                eval "$("$brew_bin" shellenv)"
+                break
+            fi
+        done
+        if ! command -v brew >/dev/null 2>&1; then
+            echo "Error: Homebrew installation failed. Install it manually from https://brew.sh and re-run."
+            exit 1
+        fi
+    fi
+fi
+
+# Packages that only apply to one platform: skip both their install script
+# and stowing anywhere else. keyd's key remapping is handled by a non-CLI
+# solution on macOS, so it stays Linux-only.
+skip_package() {
+    local dir="$1" os
+    os="$(uname -s)"
+    case "$dir" in
+        keyd|run-or-raise)
+            [ "$os" != "Linux" ] && return 0 ;;
+        finicky)
+            [ "$os" != "Darwin" ] && return 0 ;;
+    esac
+    return 1
 }
 
 
@@ -67,9 +114,9 @@ FAILED=""
 for dir in $STOW_DIRS; do
     echo "Processing $dir..."
 
-    # Skip Linux-only packages on other platforms (e.g. keyd on macOS).
-    if [ "$dir" = "keyd" ] && [ "$(uname -s)" != "Linux" ]; then
-        echo "Skipping keyd (Linux only)..."
+    # Skip platform-specific packages on other platforms.
+    if skip_package "$dir"; then
+        echo "Skipping $dir (not for this platform)..."
         continue
     fi
 

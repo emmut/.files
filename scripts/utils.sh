@@ -31,7 +31,9 @@ restore_adopted() {
     local before="$1"; shift
     local after adopted
     after=$(git status --porcelain -- "$@")
-    adopted=$(comm -13 <(sort <<<"$before") <(sort <<<"$after") | awk '{print $NF}')
+    # Strip the two-char status + space prefix; awk '{print $NF}' would
+    # truncate paths containing spaces.
+    adopted=$(comm -13 <(sort <<<"$before") <(sort <<<"$after") | cut -c4-)
     if [ -n "$adopted" ]; then
         echo "Restoring repo versions of files adopted by stow:"
         echo "$adopted"

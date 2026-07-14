@@ -34,13 +34,14 @@ cd dotfiles
 
 The setup runs on **Linux** (apt / pacman / dnf) and **macOS** (Homebrew). GUI apps
 are installed as Homebrew casks on macOS and via the system package manager on Linux.
-Platform-specific packages are skipped automatically on platforms where they don't
-apply:
+On macOS, `setup.sh` bootstraps Homebrew automatically if it isn't installed yet.
+Platform-specific packages are skipped automatically (neither installed nor stowed)
+on platforms where they don't apply:
 
 | Package        | Platform        | Notes                                         |
 | -------------- | --------------- | --------------------------------------------- |
-| `keyd`         | Linux only      | Kernel-level key remapper; stowed to `/`      |
-| `run-or-raise` | GNOME only      | Mutter keybindings via `gsettings`            |
+| `keyd`         | Linux only      | Kernel-level key remapper; stowed to `/`. Key remapping on macOS is handled outside these dotfiles. |
+| `run-or-raise` | Linux only      | GNOME Mutter keybindings via `gsettings`      |
 | `finicky`      | macOS only      | Browser router; installed via Homebrew cask   |
 
 ## How It Works

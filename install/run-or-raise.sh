@@ -53,10 +53,12 @@ if command -v gnome-extensions >/dev/null 2>&1; then
     DOWNLOAD_PATH="$(curl -fsSL "https://extensions.gnome.org/extension-info/?uuid=$UUID&shell_version=$SHELL_VERSION" \
       | grep -oE '"download_url": *"[^"]+"' | cut -d'"' -f4 || true)"
     if [ -n "$DOWNLOAD_PATH" ]; then
-      TMP_ZIP="$(mktemp --suffix=.zip)"
+      # mktemp --suffix is GNU-only; use a temp dir so this stays portable.
+      TMP_DIR="$(mktemp -d)"
+      TMP_ZIP="$TMP_DIR/extension.zip"
       curl -fsSL "https://extensions.gnome.org$DOWNLOAD_PATH" -o "$TMP_ZIP"
       gnome-extensions install --force "$TMP_ZIP"
-      rm -f "$TMP_ZIP"
+      rm -rf "$TMP_DIR"
       # Newly installed extensions can't be enabled until GNOME Shell reloads.
       gnome-extensions enable "$UUID" 2>/dev/null \
         || echo "Extension installed. Log out and back in, then run: gnome-extensions enable $UUID"
