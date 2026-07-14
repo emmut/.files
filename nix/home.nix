@@ -17,11 +17,13 @@
   # identical paths on Arch and macOS.
   imports = [
     ./apps/bat.nix
+    ./apps/claude.nix
     ./apps/delta.nix
     ./apps/fish.nix
     ./apps/lazygit.nix
     ./apps/nvim.nix
     ./apps/starship.nix
     ./apps/tmux.nix
+    ./apps/worktrunk.nix
   ];
 }

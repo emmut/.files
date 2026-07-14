@@ -1,4 +1,12 @@
 # Mirrors install/fish.sh
+#
+# Deliberate deviations from the script:
+#   - nodejs from nixpkgs replaces fnm + `fnm install --lts` (no fnm).
+#   - ni comes from nixpkgs instead of `bun add -g @antfu/ni`.
+#   - opencode from nixpkgs lags upstream by days–weeks; the legacy script
+#     stays the bleeding-edge option.
+#   - cursor is a GUI app -> skipped (see skipped.nix).
+#   - curl/git are assumed present (nix itself needs them).
 { config, pkgs, ... }:
 
 let
@@ -9,8 +17,20 @@ in
   home.packages = with pkgs; [
     fish
     fzf
+    vivid
     zoxide
+    trash-cli
     lsd
+    # killport uses lsof to find processes by port
+    lsof
+    unzip
+    nodejs
+    bun
+    ni
+    uv
+    opencode
+    # the install script drops cht.sh into ~/.local/bin as `cheat`
+    (writeShellScriptBin "cheat" ''exec ${cht-sh}/bin/cht.sh "$@"'')
   ];
 
   # Fish config, replacing its stow package (unstow before switching).
