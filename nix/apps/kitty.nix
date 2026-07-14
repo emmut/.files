@@ -1,6 +1,7 @@
-# Mirrors install/kitty.sh (config stays in the stowed kitty package)
-{ config, pkgs, ... }:
+# Runs install/kitty.sh — GUI app, installed the preferred legacy way
+# (brew cask / pacman) but orchestrated by nix; see legacy.nix.
+{ ... }:
 
 {
-  home.packages = [ (config.lib.nixGL.wrap pkgs.kitty) ];
+  legacy.apps = [ "kitty" ];
 }

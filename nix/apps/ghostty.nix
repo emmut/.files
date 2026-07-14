@@ -1,13 +1,7 @@
-# Mirrors install/ghostty.sh (config stays in the stowed ghostty package)
-{ config, pkgs, ... }:
+# Runs install/ghostty.sh — GUI app, installed the preferred legacy way
+# (brew cask / pacman) but orchestrated by nix; see legacy.nix.
+{ ... }:
 
 {
-  home.packages = [
-    # Source build on Linux (nixGL-wrapped for the host GL drivers);
-    # upstream binary .app on macOS, linked into
-    # ~/Applications/Home Manager Apps.
-    (if pkgs.stdenv.isDarwin
-     then pkgs.ghostty-bin
-     else config.lib.nixGL.wrap pkgs.ghostty)
-  ];
+  legacy.apps = [ "ghostty" ];
 }

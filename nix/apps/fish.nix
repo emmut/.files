@@ -5,7 +5,8 @@
 #   - ni comes from nixpkgs instead of `bun add -g @antfu/ni`.
 #   - opencode from nixpkgs lags upstream by days–weeks; the legacy script
 #     stays the bleeding-edge option.
-#   - cursor lives in its own module (apps/cursor.nix).
+#   - cursor (GUI, the `c` alias) is not nix-managed and has no standalone
+#     script; install it via paru/brew as install/fish.sh does.
 #   - curl/git are assumed present (nix itself needs them).
 { config, pkgs, ... }:
 

@@ -70,31 +70,25 @@ on Arch Linux and macOS — no NixOS involved. Nix only installs the CLI binarie
 (same store paths on every machine and architecture, atomic rollbacks); the stow
 packages keep managing all configs exactly as before. The flake mirrors every
 install script one-to-one: each `nix/apps/<app>.nix` corresponds to
-`install/<app>.sh` (bat, claude, delta, fish, lazygit, nvim, starship, tmux,
-worktrunk, zsh + p10k, plus the GUI apps: alacritty, kitty, ghostty, zed,
-cursor, finicky, and run-or-raise). Installing and uninstalling both go
-through nix: an app is installed because its module is imported in
+`install/<app>.sh`. An app is installed because its module is imported in
 `nix/home.nix`, and removed by deleting that import line and running
-`home-manager switch` (rollback via `home-manager generations`).
+`home-manager switch` (rollback via `home-manager generations`). Two kinds of
+modules exist:
 
-The single exception is **keyd** — it needs a root systemd service, which
-standalone home-manager cannot manage; `./scripts/setup.sh keyd` remains the
-way to install it (`nix/apps/skipped.nix` documents this).
-
-GUI-app notes:
-
-- On non-NixOS Linux, GUI apps are wrapped with
-  [nixGL](https://github.com/nix-community/nixGL) (see `nixGL.*` in
-  `home.nix`) so they find the host's OpenGL/Vulkan drivers. If zed still
-  hits driver trouble (mesa-git on CachyOS), `install/zed.sh` is the fallback.
-- On macOS, apps land in `~/Applications/Home Manager Apps`. finicky isn't
-  in nixpkgs, so `nix/apps/finicky.nix` packages the release .dmg directly.
-- zed's nixpkgs binary is `zeditor`; the module adds a `zed` shim.
-- run-or-raise declares its GNOME keybindings via `dconf.settings` instead
-  of imperative `gsettings` calls; note that `enabled-extensions` is owned
-  wholesale — hand-enabled extensions must be added to
-  `nix/apps/run-or-raise.nix`. Log out/in after the first switch so GNOME
-  Shell picks up the nix profile on `XDG_DATA_DIRS`.
+- **nixpkgs-backed** (bat, claude, delta, fish, lazygit, nvim, starship,
+  tmux, worktrunk, zsh + p10k): the CLI tools come from the Nix store —
+  same paths on every machine, atomic install/removal.
+- **legacy-bridged** (alacritty, kitty, ghostty, zed, finicky, keyd,
+  run-or-raise): GUI apps and root-level services stay on their preferred
+  installers (brew casks, pacman, official installers — proper system
+  integration, no nix GL/driver headaches), but nix orchestrates them:
+  `nix/apps/legacy.nix` runs `install/<app>.sh` when an app's module is
+  added and `uninstall/<app>.sh` when it's removed, tracking the applied
+  set in `$XDG_STATE_HOME/home-manager/legacy-apps`. Best of both worlds —
+  one declarative entry point, the battle-tested scripts underneath. Run
+  switches in an interactive terminal: uninstalls ask for confirmation and
+  keyd uses sudo. (cursor has no standalone script and stays fully manual,
+  via paru/brew as in `install/fish.sh`.)
 
 Trade-off to know about: nix-packaged `claude-code` and `opencode` can trail
 their upstream releases by days–weeks and can't self-update; the legacy
@@ -171,8 +165,10 @@ nix flake update ~/.files/nix                     # bump nixpkgs (then switch)
 ```
 
 To uninstall an app, delete its `./apps/<app>.nix` line from the `imports`
-list in `nix/home.nix` and switch — package and generated config are removed
-atomically (configs still stowed are unaffected; unstow those separately).
+list in `nix/home.nix` and switch. nixpkgs-backed apps are removed atomically;
+legacy-bridged apps run their `uninstall/<app>.sh` (which prompts and also
+unstows their config). Stowed configs of nixpkgs-backed apps are unaffected —
+unstow those separately.
 
 ### Uninstalling Nix
 
