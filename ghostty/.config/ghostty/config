@@ -52,4 +52,6 @@ font-family = FiraCode Nerd Font
 font-feature = +liga
 theme = catppuccin-macchiato.conf
 window-padding-x = 8
-command = exec env fish
+# exec replaces the wrapper shell; fish is resolved via PATH so this works
+# on both Homebrew prefixes (Apple Silicon and Intel) and on Linux.
+command = exec fish
