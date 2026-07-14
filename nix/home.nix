@@ -22,6 +22,7 @@
     ./apps/fish.nix
     ./apps/lazygit.nix
     ./apps/nvim.nix
+    ./apps/skipped.nix
     ./apps/starship.nix
     ./apps/tmux.nix
     ./apps/worktrunk.nix

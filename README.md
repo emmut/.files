@@ -68,11 +68,18 @@ on platforms where they don't apply:
 flake as a declarative alternative to the `install/` scripts. It runs **standalone**
 on Arch Linux and macOS — no NixOS involved. Nix only installs the CLI binaries
 (same store paths on every machine and architecture, atomic rollbacks); the stow
-packages keep managing all configs exactly as before. It currently declares a small
-starter set (bat, delta, lazygit, starship, zoxide, fzf, lsd, ripgrep, fd, fish,
-tmux) — add more to `home.packages` in `nix/home.nix` as needed.
+packages keep managing all configs exactly as before. The flake mirrors every
+CLI install script one-to-one: each `nix/apps/<app>.nix` corresponds to
+`install/<app>.sh` (bat, claude, delta, fish, lazygit, nvim, starship, tmux,
+worktrunk, zsh + p10k). Deliberately **not** nix-managed — still installed via
+`./scripts/setup.sh <app>` — are the GUI apps (alacritty, kitty, ghostty, zed,
+cursor, finicky), keyd, and run-or-raise; `nix/apps/skipped.nix` documents why.
 
-Two apps' configs are also home-manager-managed (replacing their stow packages):
+Trade-off to know about: nix-packaged `claude-code` and `opencode` can trail
+their upstream releases by days–weeks and can't self-update; the legacy
+installers remain the bleeding-edge option.
+
+Three apps' configs are also home-manager-managed (replacing their stow packages):
 
 - **fish**: `home.nix` links `~/.config/fish` straight into this repo via
   `mkOutOfStoreSymlink`, so edits are live without a rebuild, just like stow.
@@ -80,8 +87,14 @@ Two apps' configs are also home-manager-managed (replacing their stow packages):
   `~/.config/tmux/tmux.conf` and installs the plugins (catppuccin theme,
   sensible, yank, resurrect, continuum) from nixpkgs. No TPM, no `prefix+I`;
   the theme works immediately. Trade-off: tmux config edits go in
-  `nix/home.nix` and take effect on the next `home-manager switch`
+  `nix/apps/tmux.nix` and take effect on the next `home-manager switch`
   (`tmux/.tmux.conf` remains the source for stow-managed machines).
+- **zsh**: same treatment as tmux — `programs.zsh` in `nix/apps/zsh.nix`
+  generates `~/.zshrc` with oh-my-zsh, powerlevel10k, autosuggestions,
+  fast-syntax-highlighting, and fzf-history-search all from nixpkgs (no
+  oh-my-zsh installer, no git-cloned plugins). The stowed `~/.p10k.zsh`
+  config keeps coming from the `p10k` stow package. Fish plugins
+  (plugin-git, done) also come from nixpkgs instead of fisher.
 
 The other apps' configs stay stow-managed.
 
@@ -115,15 +128,15 @@ If your username or home directory differs (e.g. in a VM), adjust
 
 ```bash
 cd ~/.files && git pull                # get this branch's state
-stow -D fish tmux                      # hand fish/tmux links over to home-manager
+stow -D fish tmux zsh                  # hand these links over to home-manager
 home-manager switch --flake ~/.files/nix#linux
 exec fish                              # reload the shell; restart tmux sessions too
 ```
 
 home-manager refuses to overwrite files it doesn't own, so unstowing first is
-required — otherwise the switch fails on the existing `~/.config/fish` link
-(alternatively `home-manager switch -b backup ...` moves conflicting files
-aside automatically). After switching, restart tmux (`tmux kill-server`) so it
+required — otherwise the switch fails on the existing `~/.config/fish` link or
+`~/.zshrc` (alternatively `home-manager switch -b backup ...` moves conflicting
+files aside automatically). After switching, restart tmux (`tmux kill-server`) so it
 starts from the generated `~/.config/tmux/tmux.conf` with the nix-installed
 plugins; a leftover `~/.tmux/plugins` dir from TPM can be deleted.
 
