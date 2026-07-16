@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "lmstudio/google/gemma-4-e4b",
+  "small_model": "lmstudio/google/gemma-4-e4b",
+  "provider": {
+    "lmstudio": {
+      "options": {
+        "baseURL": "http://localhost:1234/v1"
+      },
+      "models": {
+        "google/gemma-4-e4b": {
+          "name": "Gemma 4 E4B",
+          "tool_call": true,
+          "limit": {
+            "context": 1000000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "railway": {
+      "command": [
+        "railway",
+        "mcp"
+      ],
+      "enabled": true,
+      "type": "local"
+    }
+  }
+}
