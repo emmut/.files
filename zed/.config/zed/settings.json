@@ -74,9 +74,9 @@
   "theme": "Catppuccin Macchiato",
   "icon_theme": "Catppuccin Macchiato",
   "buffer_font_size": 14,
-  "buffer_font_family": "FiraCode Nerd Font Mono",
+  "buffer_font_family": "FiraCode Nerd Font",
   "terminal": {
-    "font_family": "FiraCode Nerd Font Mono",
+    "font_family": "FiraCode Nerd Font",
     "line_height": {
       "custom": 1.2,
     },
