@@ -172,18 +172,16 @@ gui:
 # Config relating to git
 git:
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
-  paging:
-    # Value of the --color arg in the git diff command. Some pagers want this to be set to 'always' and some want it set to 'never'
-    colorArg: always
-    # e.g.
-    # diff-so-fancy
-    # delta --dark --paging=never
-    # ydiff -p cat -s --wrap --width={{columnWidth}}
-    pager: delta --syntax-theme="Catppuccin Mocha" --paging=never
-    # If true, Lazygit will use whatever pager is specified in `$GIT_PAGER`, `$PAGER`, or your *git config*. If the pager ends with something like ` | less` we will strip that part out, because less doesn't play nice with our rendering approach. If the custom pager uses less under the hood, that will also break rendering (hence the `--paging=never` flag for the `delta` pager).
-    useConfig: false
-    # e.g. 'difft --color=always'
-    externalDiffCommand: ""
+  diffRenderers:
+    - # Value of the --color arg in the git diff command. Some pagers want this to be set to 'always' and some want it set to 'never'
+      colorArg: always
+      # e.g.
+      # diff-so-fancy
+      # delta --dark --paging=never
+      # ydiff -p cat -s --wrap --width={{columnWidth}}
+      command: delta --syntax-theme="Catppuccin Mocha" --paging=never
+      # If true, Lazygit will use whatever pager is specified in `$GIT_PAGER`, `$PAGER`, or your *git config*. If the pager ends with something like ` | less` we will strip that part out, because less doesn't play nice with our rendering approach. If the custom pager uses less under the hood, that will also break rendering (hence the `--paging=never` flag for the `delta` pager).
+      useConfig: false
   # Config relating to committing
   commit:
     # If true, pass '--signoff' flag when committing
@@ -359,8 +357,7 @@ keybinding:
     nextMatch: "n"
     prevMatch: "N"
     startSearch: /
-    optionMenu: <disabled>
-    optionMenu-alt1: '?'
+    optionMenu: '?'
     select: <space>
     goInto: <enter>
     confirm: <enter>
@@ -402,6 +399,7 @@ keybinding:
     increaseRenameSimilarityThreshold: )
     decreaseRenameSimilarityThreshold: (
     openDiffTool: <c-t>
+    newWorktree: w
   status:
     checkForUpdate: u
     recentRepos: <enter>
@@ -421,7 +419,7 @@ keybinding:
     viewResetOptions: D
     fetch: f
     toggleTreeView: '`'
-    openMergeTool: M
+    openMergeOptions: M
     openStatusFilter: <c-b>
     copyFileInfoToClipboard: "y"
     collapseAll: '-'
@@ -442,8 +440,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
@@ -463,7 +459,7 @@ keybinding:
     markCommitAsBaseForRebase: B
     tagCommit: T
     checkoutCommit: <space>
-    resetCherryPick: <c-R>
+    resetCherryPick: <c-r>
     copyCommitAttributeToClipboard: "y"
     openLogMenu: <c-l>
     openInBrowser: o
