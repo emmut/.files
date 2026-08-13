@@ -14,6 +14,7 @@
       "Bash(pnpm tsc *)"
     ]
   },
+  "model": "fable",
   "hooks": {
     "Notification": [
       {
@@ -38,14 +39,16 @@
       }
     ]
   },
-  "model": "claude-fable-5[1m]",
   "worktree": {
     "baseRef": "head"
   },
   "enabledPlugins": {
     "caveman@caveman": true,
     "typescript-lsp@claude-plugins-official": true,
-    "worktrunk@worktrunk": true
+    "worktrunk@worktrunk": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "linear@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
@@ -58,6 +61,12 @@
       "source": {
         "source": "github",
         "repo": "max-sixty/worktrunk"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
       }
     }
   },
