@@ -359,8 +359,7 @@ keybinding:
     nextMatch: "n"
     prevMatch: "N"
     startSearch: /
-    optionMenu: <disabled>
-    optionMenu-alt1: '?'
+    optionMenu: '?'
     select: <space>
     goInto: <enter>
     confirm: <enter>
