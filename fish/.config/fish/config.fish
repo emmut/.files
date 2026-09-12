@@ -13,6 +13,13 @@ if test -d ~/.local/bin
     end
 end
 
+# Add mise shims to PATH
+if test -d ~/.local/share/mise/shims
+    if not contains -- ~/.local/share/mise/shims $PATH
+        set -p PATH ~/.local/share/mise/shims
+    end
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
     # fnm environment setup
@@ -25,6 +32,7 @@ if status is-interactive
     end
     starship init fish | source
     zoxide init fish | source
+    mise activate fish | source
 
     # LS_COLORS setup
     if command -v vivid >/dev/null 2>&1
