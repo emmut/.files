@@ -7,6 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "helix_mode": false,
   "cli_default_open_behavior": "existing_window",
   "tab_size": 2,
   "outline_panel": {
@@ -18,7 +19,7 @@
   "git_panel": {
     "dock": "left"
   },
-  "base_keymap": "Cursor",
+  "base_keymap": "Zed",
   "use_system_prompts": true,
   "agent_servers": {
     "codex-acp": {
