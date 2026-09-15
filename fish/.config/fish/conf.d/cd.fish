@@ -12,12 +12,8 @@ function cd
         case '......'
             builtin cd ../../../../..
         case '*'
-            # Use zoxide when loaded (interactive only), else plain cd
-            if functions -q z
-                z $argv
-            else
-                builtin cd $argv
-            end
+            # Use zoxide for everything else
+            z $argv
     end
 end
 
