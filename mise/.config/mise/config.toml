@@ -2,3 +2,6 @@
 idiomatic_version_file = true
 idiomatic_version_file_enable_tools = ["node"]
 node.corepack = true
+
+[tools]
+pnpm = "latest"
