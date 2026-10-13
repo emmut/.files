@@ -29,4 +29,3 @@ Then resolve as above. Notes:
 - `mergeable: MERGEABLE` → nothing to do, say so instead of merging anyway.
 - Don't switch branches in a checkout someone else is working in — use a fresh worktree (`git worktree add`) when the current one is dirty or shared.
 - Merge vs rebase: default merge (safe, no force-push). Rebase only if the user asks or the branch's history says so; then the push is `--force-with-lease`.
-- Push only when the user asks.
