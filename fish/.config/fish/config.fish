@@ -1,4 +1,5 @@
 /opt/homebrew/bin/brew shellenv | source
+fish_add_path --move --path ~/.local/share/mise/shims
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
