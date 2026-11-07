@@ -1,0 +1,17 @@
+# mise configuration
+# https://mise.jdx.dev/configuration.html
+
+[settings]
+# Automatically install tools when running mise commands
+auto_install = true
+
+# Use the legacy version file format (.tool-versions)
+legacy_version_file = true
+
+# Experimental features
+experimental = true
+
+[tools]
+# Common development tools
+node = "lts"
+rust = "stable"

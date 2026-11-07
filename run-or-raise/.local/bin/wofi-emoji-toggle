@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+prompt='emoji-grid'
+wofi_match="wofi.*--prompt ${prompt}"
+
+if pgrep -f "$wofi_match" >/dev/null 2>&1; then
+  pkill -f "$wofi_match" || true
+  exit 0
+fi
+
+if ! command -v wofi >/dev/null 2>&1; then
+  exit 1
+fi
+
+if ! command -v wl-copy >/dev/null 2>&1; then
+  exit 1
+fi
+
+if [[ ! -r /usr/bin/wofi-emoji ]]; then
+  exit 1
+fi
+
+selection="$({ sed '1,/^### DATA ###$/d' /usr/bin/wofi-emoji | awk '{ emoji=$1; $1=""; sub(/^ /, "", $0); if (!seen[emoji]++) printf "%s\t<span size=\"xx-large\">  %s  </span>\t%s\n", emoji, emoji, $0 }'; } | wofi --show dmenu --prompt "$prompt" --normal-window --location center --width 700 --height 540 --columns 7 --lines 6 --matching fuzzy --insensitive --hide-scroll --allow-markup --pre-display-cmd "printf '%s' \"%s\" | cut -f2" | cut -f 1 | tr -d '\n')"
+
+if [[ -z "$selection" ]]; then
+  exit 0
+fi
+
+wl-copy "$selection"
+if command -v wtype >/dev/null 2>&1; then
+  wtype "$selection"
+fi
