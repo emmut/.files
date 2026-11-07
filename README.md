@@ -124,7 +124,7 @@ this repository structure. Prefer stowing individual apps over the whole tree, s
 The setup scripts automatically install:
 
 - Core applications (the terminals, editors, and tools listed above)
-- Shell tooling: `fzf`, `zoxide`, `vivid`, `lsd`, `trash-cli`, `starship`
+- Shell tooling: `fzf`, `zoxide`, `vivid`, `eza` (maintained replacement for `exa`), `trash-cli`, `starship`
 - Node tooling for Fish: `fnm` (Node version manager), `bun`, and `@antfu/ni`
   (provides the `nr` command, installed via bun)
 - Plugin/theme managers: `fisher` (Fish), Oh My Zsh + Powerlevel10k (Zsh),

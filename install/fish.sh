@@ -14,7 +14,7 @@ ensure_command curl
 ensure_command git
 # trash-cli's binary is `trash`, not `trash-cli`
 ensure_command trash trash-cli
-ensure_command lsd
+ensure_command eza
 # killport uses lsof to find processes by port
 ensure_command lsof
 # the fnm and bun installers both unpack zip archives

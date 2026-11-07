@@ -23,7 +23,7 @@ remove_package starship
 remove_package zoxide
 remove_package fzf
 remove_package vivid
-remove_package lsd
+remove_package eza
 remove_package trash-cli
 
 # Remove fnm
