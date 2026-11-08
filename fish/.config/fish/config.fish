@@ -56,3 +56,6 @@ set --export PATH $BUN_INSTALL/bin $PATH
 
 # nub
 set -gx PATH $HOME/.nub/bin $PATH
+
+# Keep Vite+ shims ahead of the other runtime and package-manager setup.
+source "/home/emmut/.config/vite-plus/env.fish"
