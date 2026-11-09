@@ -1,3 +1,3 @@
-function l --wraps='ls -lh' --description 'alias l=ls -lh'
-    ls -lh $argv
+function l --wraps='ls -l --header --icons --no-permissions --no-user' --description 'alias l=ls -l --header --icons --no-permissions --no-user'
+    ls -l --header --icons --no-permissions --no-user $argv
 end
