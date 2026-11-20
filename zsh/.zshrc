@@ -141,3 +141,32 @@ fi
 export EDITOR=nvim
 
 export XDG_CONFIG_HOME="$HOME/.config"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/emiljansson/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+
+
+# bun completions
+[ -s "/Users/emiljansson/.bun-1.3.6/_bun" ] && source "/Users/emiljansson/.bun-1.3.6/_bun"
+
+export PATH="/Users/emiljansson/.lando/bin:$PATH"; #landopath
+
+# Claude desktop terminal panel only: switch to fish after the first prompt
+# (fish inside .zshrc blocks the panel's startup and the tab dies), close the tab when fish exits
+if [[ -o interactive && $TERM_PROGRAM == claude-desktop && -z $NO_FISH && -z $ZSH_EXECUTION_STRING ]]; then
+  _claude_fish() {
+    add-zle-hook-widget -d line-init _claude_fish
+    BUFFER='/opt/homebrew/bin/fish && exit'
+    zle accept-line
+  }
+  autoload -Uz add-zle-hook-widget
+  zle -N _claude_fish
+  add-zle-hook-widget line-init _claude_fish
+fi
+
+# Vite+ bin (https://viteplus.dev)
+. "/Users/emiljansson/.config/vite-plus/env"
+
+# Added by Kiri: its docker and kiri commands (kiri setup --uninstall removes this)
+case ":$PATH:" in *":$HOME/.kiri/bin:"*) ;; *) export PATH="$PATH:$HOME/.kiri/bin" ;; esac
