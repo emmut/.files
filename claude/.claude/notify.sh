@@ -3,13 +3,16 @@
 # Usage: notify.sh "message"
 # Skips the notification when the originating tmux pane is focused
 # (pane active in its window, window active, and the terminal app frontmost).
+# Clicking the notification jumps back to the originating tmux pane.
 
 msg="${1:-Claude Code}"
 title="Claude Code"
+target=""
 
 if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ]; then
   label=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}:#{window_name}' 2>/dev/null)
   [ -n "$label" ] && title="Claude Code — $label"
+  target=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}:#{window_index}' 2>/dev/null)
 
   pane_focused=$(tmux display-message -p -t "$TMUX_PANE" \
     '#{&&:#{pane_active},#{&&:#{window_active},#{session_attached}}}' 2>/dev/null)
@@ -22,6 +25,12 @@ if [ -n "$TMUX" ] && [ -n "$TMUX_PANE" ]; then
   fi
 fi
 
-osascript -e 'on run argv' \
-  -e 'display notification (item 1 of argv) with title (item 2 of argv)' \
-  -e 'end run' "$msg" "$title"
+if command -v terminal-notifier >/dev/null && [ -n "$target" ]; then
+  terminal-notifier -title "$title" -message "$msg" -group "$TMUX_PANE" \
+    -activate com.mitchellh.ghostty \
+    -execute "tmux select-window -t '$target'; tmux select-pane -t '$TMUX_PANE'"
+else
+  osascript -e 'on run argv' \
+    -e 'display notification (item 1 of argv) with title (item 2 of argv)' \
+    -e 'end run' "$msg" "$title"
+fi

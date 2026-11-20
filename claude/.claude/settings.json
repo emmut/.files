@@ -46,7 +46,7 @@
     "caveman@caveman": true,
     "typescript-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": false,
     "ponytail@ponytail": true,
     "linear@claude-plugins-official": true
   },
@@ -73,5 +73,6 @@
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
   "tui": "fullscreen",
-  "theme": "auto"
+  "theme": "auto",
+  "agentPushNotifEnabled": true
 }
