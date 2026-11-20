@@ -10,11 +10,25 @@ case "${1:-}" in
     tmux list-panes -a -F $'#{session_name}\t#{window_index}\t#{pane_index}\t#{@workmux_role}' |
       awk -F '\t' '$4 == "sidebar" { print "workmux_sidebar\t" $1 "\t" $2 "\t" $3 }' >> "$snapshot"
     ;;
+  # Restores can overlap (e.g. `prefix r` re-runs continuum's auto-restore).
+  # Snapshot pre-existing panes only at the first `before`, clean up only at
+  # the last `after`, so panes from one restore aren't seen as pre-existing.
   before)
-    existing=" $(tmux list-panes -a -F '#{pane_id}' | tr '\n' ' ') "
-    tmux set-option -gq @workmux_resurrect_existing_panes "$existing"
+    depth=$(tmux show-option -gqv @workmux_resurrect_depth)
+    if [[ ${depth:-0} == 0 ]]; then
+      existing=" $(tmux list-panes -a -F '#{pane_id}' | tr '\n' ' ') "
+      tmux set-option -gq @workmux_resurrect_existing_panes "$existing"
+    fi
+    tmux set-option -gq @workmux_resurrect_depth $((${depth:-0} + 1))
     ;;
   after)
+    depth=$(tmux show-option -gqv @workmux_resurrect_depth)
+    depth=$(( ${depth:-1} - 1 ))
+    if (( depth > 0 )); then
+      tmux set-option -gq @workmux_resurrect_depth "$depth"
+      exit 0
+    fi
+    tmux set-option -gu @workmux_resurrect_depth
     existing=$(tmux show-option -gqv @workmux_resurrect_existing_panes)
     tmux set-option -gu @workmux_resurrect_existing_panes
     [[ -n $existing ]] || exit 0
